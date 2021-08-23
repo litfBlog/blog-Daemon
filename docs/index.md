@@ -4,7 +4,7 @@
 hello
 :::
 
-(/qwq)[123]
+[123](./qwq)
 
 ```js
 import Vue from 'vue'
