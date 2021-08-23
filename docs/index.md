@@ -4,6 +4,8 @@
 hello
 :::
 
+(/qwq)[123]
+
 ```js
 import Vue from 'vue'
 import axios from 'axios'
