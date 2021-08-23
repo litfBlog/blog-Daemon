@@ -5,6 +5,23 @@ hello
 :::
 
 ```js
+import Vue from 'vue'
+import axios from 'axios'
+axios({
+  methods: 'POST',
+  url: '/login',
+  data: {
+    username: 'admin',
+    passworld: '123456'
+  }
+}).then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log(err)
+})
+```
+
+```js
 while (true) {
   console.log('你好')
 }
