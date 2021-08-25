@@ -45,6 +45,28 @@ app.use((req, res, next) => {
   next()
 })
 
+// 初始化 marked 模块
+const marked = require('marked')
+marked.setOptions({
+  highlight: function (code) {
+    return require('highlight.js').highlightAuto(code).value
+  },
+})
+// 预留目录+文件 后面做
+// app.use('/docs/:dir/:file', (req, res) => {
+//   console.log(req.params.file)
+//   console.log(req.params.dir)
+//   // console.log(req.params.fill, req.params.dir)
+//   res.send(`two  /${req.params.file}/${req.params.dir}`)
+// })
+// 页面  (接口返回 md转换html后的字符串)
+app.use('/docs/:file', (req, res) => {
+  console.log(req.params.file)
+  const fileName = req.params.file + '.md'
+  const code = fs.readFileSync(path.join(__dirname, 'docs', fileName), 'utf8')
+  res.send(marked(code))
+})
+
 // 监听端口
 app.listen(config.port, () => {
   console.log('listen ' + config.port)
