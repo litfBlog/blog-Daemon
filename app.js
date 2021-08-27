@@ -63,8 +63,13 @@ marked.setOptions({
 app.use('/docs/:file', (req, res) => {
   console.log(req.params.file)
   const fileName = req.params.file + '.md'
-  const code = fs.readFileSync(path.join(__dirname, 'docs', fileName), 'utf8')
-  res.send(marked(code))
+  fs.readFile(path.join(__dirname, 'docs', fileName), 'utf8', (err, doc) => {
+    if (err) {
+      res.status(201).send({ status: 404 })
+    } else {
+      res.send(marked(doc))
+    }
+  })
 })
 
 // 监听端口
