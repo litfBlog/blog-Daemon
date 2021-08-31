@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema({
+const docSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -17,12 +17,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
   status: {
     type: Number,
     default: 0,
   },
   // 后续可能会加入评论等功能
 })
-const user = mongoose.model('User', userSchema)
+const docs = mongoose.model('Docs', docSchema)
 
-module.exports = user
+module.exports = docs
