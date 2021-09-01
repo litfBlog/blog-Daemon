@@ -103,6 +103,7 @@ marked.setOptions({
 //   res.send(`two  /${req.params.file}/${req.params.dir}`)
 // })
 // 页面  (接口返回 md转换html后的字符串)
+app.use('/docs', require('./router/docs/findDoc'))
 app.use('/docs/:file', (req, res) => {
   console.log(req.params.file)
   const fileName = req.params.file + '.md'
