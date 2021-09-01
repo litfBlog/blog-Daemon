@@ -22,6 +22,7 @@ login.use(async (req, res) => {
     req.session.isLogin = true
     req.session.status = doc.status
     req.session.permission = doc.permission
+    req.session.userName = doc.userName
     req.session.uid = doc._id
     res.send({ code: 200, msg: '登录成功' })
   } else {

@@ -121,6 +121,8 @@ app.use('/docs/:file', (req, res) => {
 // 用户相关
 // 登录
 app.use('/api/user/login', require('./router/users/login'))
+// 登录状态
+app.use('/api/user/loginStatus', require('./router/users/loginStatus'))
 // 注册
 app.use('/api/user/register', require('./router/users/register'))
 
