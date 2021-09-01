@@ -9,14 +9,17 @@ const users = require('./../../modules/users')
 
 // 已在 app.js 声明路由
 login.use(async (req, res) => {
+  console.log(req.body);
   let { userName, passWord, authCode } = req.body
+  authCode = authCode.toLowerCase()
   console.log(req.body);
 
-  // console.log(req.session)
-  // req.session.isLogin = 'set'
-  // console.log(req.session)
-  // res.send(123)
-  // return
+  if (req.session.authCode != authCode) {
+    req.session.authCode = null
+    res.send({ code: 403, msg: '验证码错误' })
+    return
+  }
+
   let doc = await users.findOne({ userName })
   if (doc && doc.userName == userName && doc.passWord == passWord) {
     req.session.isLogin = true
@@ -24,6 +27,7 @@ login.use(async (req, res) => {
     req.session.permission = doc.permission
     req.session.userName = doc.userName
     req.session.uid = doc._id
+    req.session.authCode = null
     res.send({ code: 200, msg: '登录成功' })
   } else {
     req.session = null

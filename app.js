@@ -125,6 +125,8 @@ app.use('/api/user/login', require('./router/users/login'))
 app.use('/api/user/loginStatus', require('./router/users/loginStatus'))
 // 注册
 app.use('/api/user/register', require('./router/users/register'))
+// 验证码
+app.use('/api/authCode', require('./router/users/authCode'))
 
 // 文章相关操作
 // 发布文章
