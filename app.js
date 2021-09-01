@@ -104,17 +104,18 @@ marked.setOptions({
 // })
 // 页面  (接口返回 md转换html后的字符串)
 app.use('/docs', require('./router/docs/findDoc'))
-app.use('/docs/:file', (req, res) => {
-  console.log(req.params.file)
-  const fileName = req.params.file + '.md'
-  fs.readFile(path.join(__dirname, 'docs', fileName), 'utf8', (err, doc) => {
-    if (err) {
-      res.status(201).send({ status: 404 })
-    } else {
-      res.send(marked(doc))
-    }
-  })
-})
+app.use('/data/img', express.static('./uploads/'))
+// app.use('/docs/:file', (req, res) => {
+//   console.log(req.params.file)
+//   const fileName = req.params.file + '.md'
+//   fs.readFile(path.join(__dirname, 'docs', fileName), 'utf8', (err, doc) => {
+//     if (err) {
+//       res.status(201).send({ status: 404 })
+//     } else {
+//       res.send(marked(doc))
+//     }
+//   })
+// })
 // api相关操作
 // 所有用户相关，文章相关均在此路由
 
