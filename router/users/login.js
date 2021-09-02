@@ -14,6 +14,12 @@ login.use(async (req, res) => {
   authCode = authCode.toLowerCase()
   console.log(req.body);
 
+  if (
+    /^[a-z0-9_-]{3,16}$/.test(userName) &&
+    /^[a-z0-9_-]{6,18}$/.test(passWord) &&
+    /^[a-zA-Z0-9]{4,4}$/.test(authCode)
+  ) { } else return res.send({ code: 403, msg: '表单格式错误' })
+
   if (req.session.authCode != authCode) {
     req.session.authCode = null
     res.send({ code: 403, msg: '验证码错误' })
