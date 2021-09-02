@@ -3,6 +3,8 @@ node_modules
 dist
 /docs
 test
+/uploads/*
+/delLoads/*
 
 # local env files
 .env.local

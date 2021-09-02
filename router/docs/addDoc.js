@@ -3,14 +3,62 @@
  * @Author: litfa
  * @Date: 2021-8-28
  */
+const path = require('path')
+const fs = require('fs')
 
 const addDoc = require('express')()
 const docs = require('./../../modules/docs')
 
 // 引入multer中间件，用于处理上传的文件数据
 const multer = require('multer')
-const path = require('path')
-const fs = require('fs')
+// uuid
+const uuid = require('uuid')
+// console.log(uuid.v1);
+// console.log(uuid.v2);
+// console.log(uuid.v3);
+// console.log(uuid.v4());
+// console.log(uuid.v5);
+
+// 进入编辑页 初始化数据
+// 分配文章id
+// 保存草稿功能
+addDoc.use('/init', (req, res) => {
+  // 账号状态
+  if (!req.session.isLogin) {
+    res.send({ code: 403, msg: '未登录' })
+    return
+  }
+  if (req.session.status != 1) {
+    res.send({ code: 403, msg: '账号状态异常' })
+    return
+  }
+  if (config.allow_addDoc.indexOf(req.session.permission) == -1) {
+    res.send({ code: 403, msg: '权限不足' })
+    return
+  }
+
+  // 若是编辑中状态
+  if (req.session.edit && req.session.edit.editing) {
+    // 返回编辑状态
+    res.send({ code: 200, type: 'editing', content: '草稿', title: '', info: '' })
+  } else {
+    // 非编辑中状态
+    // 初始化编辑状态
+    let id = uuid.v4()
+    fs.mkdir(`./uploads/${id}/`, (err) => {
+      if (err) {
+        res.send({ code: 500 })
+        return
+      }
+      req.session.edit = {
+        editing: true,
+        date: Date.now(),
+        id: id
+      }
+      res.send({ code: 200, type: 'init' })
+    })
+  }
+})
 
 addDoc.use(multer({
   dest: './uploads',
@@ -22,7 +70,7 @@ addDoc.use(multer({
   },
   fileFilter: function (req, file, cb) {
     // 限制文件上传类型，仅可上传png格式图片
-    if (file.mimetype == 'image/png') {
+    if (file.mimetype == 'image/png' || file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg') {
       cb(null, true)
     } else {
       cb(null, false)
@@ -31,19 +79,37 @@ addDoc.use(multer({
 }).any())
 
 addDoc.use('/upImg', (req, res) => {
-
   console.log(req.files)
-
-  const filename = req.files[0].path + path.parse(req.files[0].originalname).ext
-  fs.rename(req.files[0].path, filename, function (err) {
+  console.log(req.session);
+  if (req.files[0].mimetype == 'image/png' || req.files[0].mimetype == 'image/jpg' || req.files[0].mimetype == 'image/jpeg') {
+    const filename = req.files[0].filename + path.parse(req.files[0].originalname).ext
+    console.log(filename)
+    fs.rename(req.files[0].path, `./uploads/${req.session.edit.id}/${filename}`, function (err) {
+      if (err) {
+        console.log(err)
+        res.send({ code: 500, msg: '上传失败' })
+      } else {
+        res.send({ code: 200, path: `/data/img/${req.session.edit.id}/${req.files[0].filename + path.parse(req.files[0].originalname).ext}` })
+      }
+    })
+  } else {
+    res.send({ code: 400, msg: '文件类型有误！' })
+  }
+})
+addDoc.post('/delImg', (req, res) => {
+  let { fileName } = req.body
+  fileName = fileName.split('/')
+  fileName = fileName[fileName.length - 1]
+  console.log(fileName)
+  fs.rename(`./uploads/${req.session.edit.id}/${fileName}`, `./delLoads/${fileName}.bak`, (err) => {
     if (err) {
-      res.send(err)
-    } else {
-      res.send({ code: 200, path: `/data/img/${req.files[0].filename + path.parse(req.files[0].originalname).ext}` })
+      console.log(err);
+      res.send({ code: 500 })
+      return
     }
+    res.send({ code: 200 })
   })
 })
-// app.use(multer({ dest: './uploads' }).any())
 
 // 已在 app.js 声明路由
 addDoc.use((req, res) => {
@@ -69,12 +135,13 @@ addDoc.use((req, res) => {
       date: Date.now(),
       content,
       author: req.session.uid,
+      dataUuid: req.session.edit.id
     })
     .then((doc) => {
       res.send({ code: 200, msg: '发布成功' })
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err)
       res.send({ code: 500, msg: '发布失败' })
     })
 })

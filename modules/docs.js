@@ -25,6 +25,9 @@ const docSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  dataUuid: {
+    type: String
+  }
   // 后续可能会加入评论等功能
 })
 const docs = mongoose.model('Docs', docSchema)
