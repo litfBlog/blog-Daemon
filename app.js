@@ -7,7 +7,8 @@ const path = require('path')
 const fs = require('fs')
 
 global.config = {}
-require('./config')
+config.mail = {}
+require('./configDev')
 
 const express = require('express')
 const cookieParser = require('cookie-parser')

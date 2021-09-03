@@ -6,3 +6,12 @@ config.allowCorf = true
 config.dbUrl = 'mongodb://127.0.0.1/xingwiki'
 // 允许发表内容的
 config.allow_addDoc = ['admin']
+
+config.mail.host = ''
+config.mail.secureConnection = true
+config.mail.port = 465
+config.mail.auth = {
+  user: "",
+  pass: ""
+}
+config.mail.from = ""

@@ -7,32 +7,52 @@
 const register = require('express')()
 const users = require('./../../modules/users')
 
+const sendMail = require("./../../modules/sendMail")
+
 // 已在 app.js 声明路由
-register.use('/register', (req, res) => {
-  let { userName, email, password, authCode } = req.body
-})
+register.use('/auth', async (req, res) => {
+  let { userName, email, passWord, authCode } = req.body
 
-//引入multer
-const multer = require('multer')
-//设置上传文件存储地址
-const upload = multer({ dest: 'uploads/' })
+  if (!/^[a-z0-9_-]{3,16}$/.test(userName)) return res.send({ code: 403, msg: '用户名有误' })
+  if (!/^[a-z0-9_-]{6,18}$/.test(passWord)) return res.send({ code: 403, msg: '密码格式有误' })
+  if (authCode != req.session.authCode) return res.send({ code: 403, msg: '验证码错误' })
+  let doc = await users.findOne({ userName })
+  if (doc) return res.send({ code: 403, msg: '该用户名已被占用' })
+  let doc1 = await users.findOne({ email })
+  if (doc1) return res.send({ code: 403, msg: '该邮箱已注册' })
 
-register.post('/upload', upload.single('file'), (req, res, next) => {
-  //返回客户端的信息
-  let data = {}
-  data['code'] = 200
-  //获取文件
-  let file = req.file
-  if (file) {
-    //获取文件名
-    let fileNameArr = file.originalname.split('.')
-    //获取文件后缀名
-    var suffix = fileNameArr[fileNameArr.length - 1]
-    //文件重命名
-    fs.renameSync('./uploads/' + file.filename, `新路径+新文件名.${suffix}`)
-    file['newfilename'] = `新文件名.${suffix}`
+  let code = ""
+  for (let i = 1; i <= 6; i++) {
+    code += Math.floor(Math.random() * 10)
   }
-  data['file'] = file
-  res.send(data)
+  req.session.mailCode = code
+
+  sendMail(email, 'html', '用户注册-验证码', `
+    您的验证码是 ${code}
+  `)
+
+  res.send({ code: 200, msg: '发送成功' })
 })
+
+register.use('/register', async (req, res) => {
+  let { userName, email, passWord, authCode, emailCode } = req.body
+
+  if (!/^[a-z0-9_-]{3,16}$/.test(userName)) return res.send({ code: 403, msg: '用户名有误' })
+  if (!/^[a-z0-9_-]{6,18}$/.test(passWord)) return res.send({ code: 403, msg: '密码格式有误' })
+  if (authCode != req.session.authCode) return res.send({ code: 403, msg: '验证码错误' })
+  if (emailCode != req.session.mailCode) return res.send({ code: 403, msg: '邮箱验证码错误' })
+  let doc = await users.findOne({ userName })
+  if (doc) return res.send({ code: 403, msg: '该用户名已被占用' })
+  let doc1 = await users.findOne({ email })
+  if (doc1) return res.send({ code: 403, msg: '该邮箱已注册' })
+
+  users.create({
+    userName, email, passWord
+  }).then(doc => {
+    res.send({ code: 200, msg: '注册成功' })
+  }).catch(err => {
+    res.send({ code: 500, msg: '注册失败' })
+  })
+})
+
 module.exports = register

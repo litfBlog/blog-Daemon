@@ -602,6 +602,19 @@ negotiator@0.6.2:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
   integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
 
+node-mail@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/node-mail/-/node-mail-1.0.7.tgz#c2a9331827b9848f975836474420d81d5ea009ea"
+  integrity sha1-wqkzGCe5hI+XWDZHRCDYHV6gCeo=
+  dependencies:
+    nodemailer "^4.0.1"
+    xoauth2 "^1.2.0"
+
+nodemailer@^4.0.1:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-4.7.0.tgz#4420e06abfffd77d0618f184ea49047db84f4ad8"
+  integrity sha512-IludxDypFpYw4xpzKdMAozBSkzKHmNBvGanUREjJItgJ2NYcK/s8+PggVhj7c2yGFQykKsnnmv1+Aqo0ZfjHmw==
+
 object-assign@^4, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
@@ -900,6 +913,11 @@ whatwg-url@^9.1.0:
   dependencies:
     tr46 "^2.1.0"
     webidl-conversions "^6.1.0"
+
+xoauth2@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/xoauth2/-/xoauth2-1.2.0.tgz#f2eefac11472c971ea3bc46e554eb4b1232146e5"
+  integrity sha1-8u76wRRyyXHqO8RuVU60sSMhRuU=
 
 xtend@^4.0.0:
   version "4.0.2"
