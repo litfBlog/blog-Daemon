@@ -14,7 +14,10 @@ loginStatus.use(async (req, res) => {
       code: 200, data: {
         isLogin: true,
         userName: req.session.userName,
-        avatar: 'https://alongw.cn/icon/logo.jpg'
+        avatar: 'https://alongw.cn/icon/logo.jpg',
+        email: req.session.email,
+        status: req.session.status,
+        permission: req.session.permission
       }
     })
   } else {

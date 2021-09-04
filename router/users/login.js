@@ -7,6 +7,13 @@
 const login = require('express')()
 const users = require('./../../modules/users')
 
+login.use('/unlogin', (req, res) => {
+  console.log(req.session);
+  req.session.isLogin = false
+  console.log(req.session);
+  res.send({ code: 200, msg: '退出成功' })
+})
+
 // 已在 app.js 声明路由
 login.use(async (req, res) => {
   console.log(req.body);
@@ -32,6 +39,7 @@ login.use(async (req, res) => {
     req.session.status = doc.status
     req.session.permission = doc.permission
     req.session.userName = doc.userName
+    req.session.email = doc.email
     req.session.uid = doc._id
     req.session.authCode = null
     res.send({ code: 200, msg: '登录成功' })
