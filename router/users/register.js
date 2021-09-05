@@ -36,7 +36,9 @@ register.use('/auth', async (req, res) => {
   if (doc) return res.send({ code: 403, msg: '该用户名已被占用' })
   let doc1 = await users.findOne({ email })
   if (doc1) return res.send({ code: 403, msg: '该邮箱已注册' })
-  if ((req.session.mailDate + (1000 * 60)) < Date.now()) {
+  console.log((req.session.mailDate + (1000 * 60)), Date.now());
+  console.log((req.session.mailDate + (1000 * 60)) < Date.now());
+  if ((req.session.mailDate + (1000 * 60)) > Date.now()) {
     return res.send({ code: 200, msg: '获取过于频繁' })
   }
 
