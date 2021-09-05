@@ -9,6 +9,9 @@ const docSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  avatar: {
+    type: String
+  },
   content: {
     type: String,
     required: true,

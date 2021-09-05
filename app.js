@@ -106,6 +106,7 @@ marked.setOptions({
 // 页面  (接口返回 md转换html后的字符串)
 app.use('/docs', require('./router/docs/findDoc'))
 app.use('/data/img', express.static('./uploads/'))
+app.use('/data/userAvatar', express.static('./userAvatar/'))
 // app.use('/docs/:file', (req, res) => {
 //   console.log(req.params.file)
 //   const fileName = req.params.file + '.md'
@@ -127,6 +128,8 @@ app.use('/api/user/login', require('./router/users/login'))
 app.use('/api/user/loginStatus', require('./router/users/loginStatus'))
 // 注册
 app.use('/api/user/register', require('./router/users/register'))
+// 设置资料
+app.use('/api/user/setInfo', require('./router/users/setInfo'))
 // 验证码
 app.use('/api/authCode', require('./router/users/authCode'))
 
