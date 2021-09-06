@@ -5,6 +5,7 @@ dist
 test
 /uploads/*
 /delLoads/*
+/userAvatar/*
 configDev.js
 
 # local env files
