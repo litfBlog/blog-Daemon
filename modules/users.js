@@ -14,6 +14,9 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
   },
+  avatarFileName: {
+    type: String,
+  },
   email: {
     type: String,
     required: true,
