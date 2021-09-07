@@ -6,6 +6,7 @@
 
 const login = require('express')()
 const users = require('./../../modules/users')
+const md5 = require('md5')
 
 login.use('/unlogin', (req, res) => {
   console.log(req.session);
@@ -34,7 +35,7 @@ login.use(async (req, res) => {
   }
 
   let doc = await users.findOne({ userName })
-  if (doc && doc.userName == userName && doc.passWord == passWord) {
+  if (doc && doc.userName == userName && doc.passWord == md5(md5(passWord) + 'xingWiki')) {
     req.session.isLogin = true
     req.session.status = doc.status
     req.session.permission = doc.permission

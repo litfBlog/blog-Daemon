@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   passWord: {
     type: String,
     required: true,
-    maxlength: 20,
+    // maxlength: 20,
   },
   avatar: {
     type: String,

@@ -9,6 +9,8 @@ const users = require('./../../modules/users')
 
 const sendMail = require("./../../modules/sendMail")
 
+const md5 = require('md5')
+
 register.use('/find', async (req, res) => {
   let { userName, email } = req.body
   console.log(req.body);
@@ -79,11 +81,17 @@ register.use('/register', async (req, res) => {
     return res.send({ code: 403, msg: '验证码已过期' })
   }
 
+  // passWord = md5(md5(passWord) + 'xingWiki')
+
   users.create({
-    userName, email, passWord
+    userName,
+    email,
+    passWord: md5(md5(passWord) + 'xingWiki'),
+    register: Date.now()
   }).then(doc => {
     res.send({ code: 200, msg: '注册成功' })
   }).catch(err => {
+    console.log(err)
     res.send({ code: 500, msg: '注册失败' })
   })
 })
