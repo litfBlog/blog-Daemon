@@ -59,4 +59,6 @@ router.use('/upavatar', (req, res) => {
   }
 })
 
+router.use('/reSetPassword', require('./resetPassword'))
+
 module.exports = router
