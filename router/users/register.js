@@ -59,7 +59,9 @@ register.use('/register', async (req, res) => {
     userName,
     email,
     passWord: md5(md5(passWord) + 'xingWiki'),
-    register: Date.now()
+    register: Date.now(),
+    status: 1,
+    permission: 'member'
   }).then(doc => {
     res.send({ code: 200, msg: '注册成功' })
   }).catch(err => {
