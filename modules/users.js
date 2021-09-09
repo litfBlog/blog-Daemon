@@ -23,10 +23,6 @@ const userSchema = new mongoose.Schema({
     minlength: 5,
     unique: true,
   },
-  /* 用户权限说明：
-   * 1：正常
-   * 2.
-   **/
   status: {
     type: Number,
     default: 0,
