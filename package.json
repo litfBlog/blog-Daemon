@@ -1,19 +1,25 @@
 {
-  "name": "wiki-daemon",
+  "name": "xingwiki",
   "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:litfa/wiki-daemon.git",
-  "author": "xingHome <xingqq2233@qq.com>",
+  "description": "wiki blog",
+  "Keywords": [
+    "wiki",
+    "blog"
+  ],
+  "main": "app.js",
+  "author": "litfa",
+  "readmeFilename": "README.md",
   "license": "MIT",
+  "contributors": [
+    "litfa"
+  ],
   "dependencies": {
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
-    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "highlight.js": "^11.2.0",
-    "http-proxy-middleware": "^2.0.1",
     "log4js": "^6.3.0",
     "marked": "^3.0.1",
     "md5": "^2.3.0",
@@ -22,5 +28,8 @@
     "node-mail": "^1.0.7",
     "svg-captcha": "^1.4.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^2.0.1"
   }
 }
