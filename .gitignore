@@ -7,6 +7,7 @@ test
 /delLoads/*
 /userAvatar/*
 configDev.js
+logs
 
 # local env files
 .env.local
