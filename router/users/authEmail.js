@@ -12,6 +12,7 @@ const md5 = require('md5')
 
 // 已声明路由
 register.use(async (req, res) => {
+  logger.info(`获取邮箱验证码 ${req.userip} ${JSON.stringify(req.body)}`)
   let { userName, email, passWord, authCode } = req.body
 
   if (!/^[a-z0-9_-]{3,16}$/.test(userName)) return res.send({ code: 403, msg: '用户名有误' })
@@ -21,8 +22,8 @@ register.use(async (req, res) => {
   if (doc) return res.send({ code: 403, msg: '该用户名已被占用' })
   let doc1 = await users.findOne({ email })
   if (doc1) return res.send({ code: 403, msg: '该邮箱已注册' })
-  console.log((req.session.mailDate + (1000 * 60)), Date.now());
-  console.log((req.session.mailDate + (1000 * 60)) < Date.now());
+  // console.log((req.session.mailDate + (1000 * 60)), Date.now());
+  // console.log((req.session.mailDate + (1000 * 60)) < Date.now());
   if ((req.session.mailDate + (1000 * 60)) > Date.now()) {
     return res.send({ code: 200, msg: '获取过于频繁' })
   }

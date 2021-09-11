@@ -13,7 +13,7 @@ const md5 = require('md5')
 
 register.use('/find', async (req, res) => {
   let { userName, email } = req.body
-  console.log(req.body);
+  // console.log(req.body);
   let doc
   if (userName) {
     doc = await users.findOne({ userName })
@@ -31,6 +31,7 @@ register.use('/find', async (req, res) => {
 register.use('/auth', require('./authEmail'))
 
 register.use('/register', async (req, res) => {
+  logger.info(`注册 ${req.userip}, ${JSON.stringify(req.body)}`)
   let { userName, email, passWord, authCode, emailCode } = req.body
 
   if (!/^[a-z0-9_-]{3,16}$/.test(userName)) return res.send({ code: 403, msg: '用户名有误' })
@@ -43,9 +44,9 @@ register.use('/register', async (req, res) => {
   let doc1 = await users.findOne({ email })
   if (doc1) return res.send({ code: 403, msg: '该邮箱已注册' })
 
-  console.log((req.session.mailDate + (1000 * 60)) < Date.now());
-  console.log((req.session.mailDate + (1000 * 60 * 5)) > Date.now());
-  console.log(req.session);
+  // console.log((req.session.mailDate + (1000 * 60)) < Date.now());
+  // console.log((req.session.mailDate + (1000 * 60 * 5)) > Date.now());
+  // console.log(req.session);
 
   if (
     (req.session.mailDate + (1000 * 60 * 5)) > Date.now()
@@ -65,7 +66,8 @@ register.use('/register', async (req, res) => {
   }).then(doc => {
     res.send({ code: 200, msg: '注册成功' })
   }).catch(err => {
-    console.log(err)
+    // console.log(err)
+    logger.error(err)
     res.send({ code: 500, msg: '注册失败' })
   })
 })

@@ -32,9 +32,9 @@ addDoc.use('/init', (req, res) => {
     res.send({ code: 403, msg: '账号状态异常' })
     return
   }
-  console.log(config.allow_addDoc);
-  console.log(config.allow_addDoc.indexOf(req.session.permission));
-  console.log(req.session);
+  // console.log(config.allow_addDoc);
+  // console.log(config.allow_addDoc.indexOf(req.session.permission));
+  // console.log(req.session);
   if (config.allow_addDoc.indexOf(req.session.permission) == -1) {
     res.send({ code: 403, msg: '权限不足' })
     return

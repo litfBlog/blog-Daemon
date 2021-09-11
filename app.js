@@ -6,7 +6,7 @@
 
 // log
 var log4js = require("log4js");
-var logger = log4js.getLogger();
+global.logger = log4js.getLogger();
 logger.level = "all"; // default level is OFF - which means no logs at all.
 // logger.debug("Some debug messages");
 let programName = "wikilog";
@@ -75,6 +75,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(cookieParser())
+
+app.use((req, res, next) => {
+  req.userip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+  req.userip = req.userip.match(/\d+\.\d+\.\d+\.\d+/)[0]
+  next()
+})
 
 app.use(
   session({

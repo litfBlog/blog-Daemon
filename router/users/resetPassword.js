@@ -22,8 +22,8 @@ router.use('/auth', (req, res) => {
   // if (doc) return res.send({ code: 403, msg: '该用户名已被占用' })
   // let doc1 = await users.findOne({ email })
   // if (doc1) return res.send({ code: 403, msg: '该邮箱已注册' })
-  console.log((req.session.mailDate + (1000 * 60)), Date.now());
-  console.log((req.session.mailDate + (1000 * 60)) < Date.now());
+  // console.log((req.session.mailDate + (1000 * 60)), Date.now());
+  // console.log((req.session.mailDate + (1000 * 60)) < Date.now());
   if ((req.session.mailDate + (1000 * 60)) > Date.now()) {
     return res.send({ code: 200, msg: '获取过于频繁' })
   }
@@ -43,6 +43,7 @@ router.use('/auth', (req, res) => {
 })
 
 router.use('/reSet', (req, res) => {
+  logger.info(`重置密码 ${JSON.stringify(req.body)}`)
   let { email, authCode, emailCode, newPassWord } = req.body
 
   // if (!/^[a-z0-9_-]{3,16}$/.test(userName)) return res.send({ code: 403, msg: '用户名有误' })
@@ -56,9 +57,9 @@ router.use('/reSet', (req, res) => {
   // let doc1 = await users.findOne({ email })
   // if (doc1) return res.send({ code: 403, msg: '该邮箱已注册' })
 
-  console.log((req.session.mailDate + (1000 * 60)) < Date.now());
-  console.log((req.session.mailDate + (1000 * 60 * 5)) > Date.now());
-  console.log(req.session);
+  // console.log((req.session.mailDate + (1000 * 60)) < Date.now());
+  // console.log((req.session.mailDate + (1000 * 60 * 5)) > Date.now());
+  // console.log(req.session);
 
   if (
     (req.session.mailDate + (1000 * 60 * 5)) > Date.now()
@@ -70,7 +71,8 @@ router.use('/reSet', (req, res) => {
   }).then(doc => {
     res.send({ code: 200, msg: '注册成功' })
   }).catch(err => {
-    console.log(err)
+    // console.log(err)
+    logger.error(err)
     res.send({ code: 500, msg: '注册失败' })
   })
 })

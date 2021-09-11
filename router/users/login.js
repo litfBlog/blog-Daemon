@@ -9,18 +9,20 @@ const users = require('./../../modules/users')
 const md5 = require('md5')
 
 login.use('/unlogin', (req, res) => {
-  console.log(req.session);
+  // console.log(req.session);
   req.session.isLogin = false
-  console.log(req.session);
+  // console.log(req.session);
+  logger.info(`用户退出登录 ${JSON.stringify(req.session)}`)
   res.send({ code: 200, msg: '退出成功' })
 })
 
 // 已在 app.js 声明路由
 login.use(async (req, res) => {
-  console.log(req.body);
+  logger.info(`用户登录 ip:${req.userip} ${JSON.stringify(req.body)}`)
+  // console.log(req.body);
   let { userName, passWord, authCode } = req.body
   authCode = authCode.toLowerCase()
-  console.log(req.body);
+  // console.log(req.body);
 
   if (
     /^[a-z0-9_-]{3,16}$/.test(userName) &&
@@ -44,9 +46,11 @@ login.use(async (req, res) => {
     req.session.uid = doc._id
     req.session.authCode = null
     res.send({ code: 200, msg: '登录成功' })
+    logger.info(`用户登录成功 ip:${req.userip} ${JSON.stringify(req.session)}`)
   } else {
     req.session = null
     res.send({ code: 403, msg: '账号或密码错误' })
+    logger.info(`用户登录失败 ip:${req.userip} ${JSON.stringify(req.body)}`)
   }
 })
 

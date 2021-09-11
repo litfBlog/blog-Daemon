@@ -10,6 +10,7 @@ const svgCaptcha = require('svg-captcha')
 // app.use(cookieParase())
 // 已在 app.js 声明路由
 authCode.use(async (req, res) => {
+  logger.info(`获取图片验证码 ${req.userip}`)
   // 获取验证码
   var captcha = svgCaptcha.create({
     // 翻转颜色 
@@ -25,7 +26,7 @@ authCode.use(async (req, res) => {
   });
   // 保存到session,忽略大小写 
   req.session.authCode = captcha.text.toLowerCase();
-  console.log(req.session); //0xtg 生成的验证码
+  // console.log(req.session); //0xtg 生成的验证码
   //保存到cookie 方便前端调用验证
   // res.cookie('captcha', req.session);
   res.setHeader('Content-Type', 'image/svg+xml');
