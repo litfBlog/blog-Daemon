@@ -14,6 +14,7 @@ const ids = require('./../../modules/ids')
 const multer = require('multer')
 // uuid
 const uuid = require('uuid')
+const { Logger } = require('log4js')
 // console.log(uuid.v1);
 // console.log(uuid.v2);
 // console.log(uuid.v3);
@@ -83,14 +84,17 @@ addDoc.use(multer({
 }).any())
 
 addDoc.use('/upImg', (req, res) => {
-  console.log(req.files)
-  console.log(req.session);
+  // console.log(req.files)
+  // console.log(req.session);
+  logger.info(`上传文件 ${req.userip} ${JSON.stringify(req.files)} ${JSON.stringify(req.session)}`)
   if (req.files[0].mimetype == 'image/png' || req.files[0].mimetype == 'image/jpg' || req.files[0].mimetype == 'image/jpeg') {
     const filename = req.files[0].filename + path.parse(req.files[0].originalname).ext
-    console.log(filename)
+    // console.log(filename)
+    logger.info(filename)
     fs.rename(req.files[0].path, `./uploads/${req.session.edit.id}/${filename}`, function (err) {
       if (err) {
-        console.log(err)
+        // console.log(err)
+        logger.error(err)
         res.send({ code: 500, msg: '上传失败' })
       } else {
         res.send({ code: 200, path: `/data/img/${req.session.edit.id}/${req.files[0].filename + path.parse(req.files[0].originalname).ext}` })
@@ -104,10 +108,12 @@ addDoc.post('/delImg', (req, res) => {
   let { fileName } = req.body
   fileName = fileName.split('/')
   fileName = fileName[fileName.length - 1]
-  console.log(fileName)
+  // console.log(fileName)
+  logger.info(`删除图片 ${req.userip}, ${fileName}, ${JSON.stringify(req.session)}`)
   fs.rename(`./uploads/${req.session.edit.id}/${fileName}`, `./delLoads/${fileName}.bak`, (err) => {
     if (err) {
-      console.log(err);
+      // console.log(err);
+      logger.error(err)
       res.send({ code: 500 })
       return
     }
@@ -118,7 +124,7 @@ addDoc.post('/delImg', (req, res) => {
 // 已在 app.js 声明路由
 addDoc.use((req, res) => {
   // if (req.session.isLogin && req.session.status == 1 && req.session.permission.indexof(config.allow_addDoc) != -1) {
-  console.log(req.session)
+  // console.log(req.session)
   if (!req.session.isLogin) {
     res.send({ code: 403, msg: '未登录' })
     return
@@ -127,9 +133,9 @@ addDoc.use((req, res) => {
     res.send({ code: 403, msg: '账号状态异常' })
     return
   }
-  console.log(config.allow_addDoc);
-  console.log(config.allow_addDoc.indexOf(req.session.permission));
-  console.log(req.session);
+  // console.log(config.allow_addDoc);
+  // console.log(config.allow_addDoc.indexOf(req.session.permission));
+  // console.log(req.session);
   if (config.allow_addDoc.indexOf(req.session.permission) == -1) {
     res.send({ code: 403, msg: '权限不足' })
     return
@@ -148,7 +154,7 @@ addDoc.use((req, res) => {
     },
     {
       upsert: true, // 如果该文档不存在则插入
-      returnOriginal: false, // 不返回更新后的数据
+      returnOriginal: false, // 返回更新是否成功/更新后结果  false返回更新后结果
     }
   ).then(id => {
     docs.create({
@@ -162,7 +168,8 @@ addDoc.use((req, res) => {
     }).then(doc => {
       res.send({ code: 200, msg: '发布成功' })
     }).catch(err => {
-      console.log(err)
+      // console.log(err)
+      logger.error(err)
       res.send({ code: 500, msg: '发布失败' })
     })
   })
