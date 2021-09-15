@@ -8,6 +8,7 @@ const fs = require('fs')
 
 const addDoc = require('express')()
 const docs = require('./../../modules/docs')
+const ids = require('./../../modules/ids')
 
 // 引入multer中间件，用于处理上传的文件数据
 const multer = require('multer')
@@ -134,22 +135,37 @@ addDoc.use((req, res) => {
     return
   }
   let { title, info, content } = req.body
-  docs
-    .create({
+  // 自增ids 自增后就是文章的id
+  ids.findOneAndUpdate(
+    {
+      name: 'docs',
+    },
+    {
+      // $inc 需要自增的字段
+      $inc: {
+        id: +1
+      }
+    },
+    {
+      upsert: true, // 如果该文档不存在则插入
+      returnOriginal: false, // 不返回更新后的数据
+    }
+  ).then(id => {
+    docs.create({
+      _id: id.id,
       title,
       info,
       date: Date.now(),
       content,
       author: req.session.uid,
       dataUuid: req.session.edit.id
-    })
-    .then((doc) => {
+    }).then(doc => {
       res.send({ code: 200, msg: '发布成功' })
-    })
-    .catch((err) => {
+    }).catch(err => {
       console.log(err)
       res.send({ code: 500, msg: '发布失败' })
     })
+  })
 })
 
 module.exports = addDoc

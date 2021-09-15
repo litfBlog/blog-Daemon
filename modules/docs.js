@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const docSchema = new mongoose.Schema({
+  _id: {
+    type: Number,
+    // required: true,
+    // unique: true,
+  },
   title: {
     type: String,
     required: true,
