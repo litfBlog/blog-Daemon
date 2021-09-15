@@ -11,15 +11,15 @@ marked.setOptions({
     return require('highlight.js').highlightAuto(code).value
   },
 })
-// 单个页面
+// 目录+页面
 router.use('/:dir/:file', (req, res) => {
   res.send('dir')
 })
-// 目录+页面
-router.use('/:file', async (req, res) => {
+// 单个页面
+router.use('/:id', async (req, res) => {
   // res.send('file')
   let doc = await docs.findOne({
-    title: req.params.file
+    _id: req.params.id
   }).populate('author')
   if (doc) {
     doc.content = marked(doc.content)

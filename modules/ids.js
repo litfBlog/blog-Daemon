@@ -1,7 +1,7 @@
 /**
  * id自增
  * 在此文档记录 {name: 'docs', id: 1}
- * 插入文档时，此处id自增一，插入自增后的id
+ * 插入文档时，此处id自增一，插入自增后的id 此id也是文章总数
  */
 
 const mongoose = require('mongoose')
