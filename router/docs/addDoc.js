@@ -24,7 +24,12 @@ const { Logger } = require('log4js')
 // 进入编辑页 初始化数据
 // 分配文章id
 // 保存草稿功能
-addDoc.use('/init', (req, res) => {
+
+// function sleep (time) {
+//   return new Promise((resolve) => setTimeout(resolve, time));
+// }
+addDoc.use('/init', async (req, res) => {
+  // await sleep(5000)
   // 账号状态
   if (!req.session.isLogin) {
     res.send({ code: 403, msg: '未登录' })
