@@ -26,7 +26,7 @@ const docSchema = new mongoose.Schema({
     required: true,
   },
   author: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.Number,
     ref: 'User',
   },
   status: {

@@ -21,6 +21,7 @@ router.use('/:id', async (req, res) => {
   let doc = await docs.findOne({
     _id: req.params.id
   }).populate('author')
+  // console.log(doc);
   if (doc) {
     doc.content = marked(doc.content)
     res.send({

@@ -6,6 +6,7 @@
 
 const register = require('express')()
 const users = require('./../../modules/users')
+const ids = require('./../../modules/ids')
 
 const sendMail = require("./../../modules/sendMail")
 
@@ -56,19 +57,36 @@ register.use('/register', async (req, res) => {
 
   // passWord = md5(md5(passWord) + 'xingWiki')
 
-  users.create({
-    userName,
-    email,
-    passWord: md5(md5(passWord) + 'xingWiki'),
-    register: Date.now(),
-    status: 1,
-    permission: 'member'
-  }).then(doc => {
-    res.send({ code: 200, msg: '注册成功' })
-  }).catch(err => {
-    // console.log(err)
-    logger.error(err)
-    res.send({ code: 500, msg: '注册失败' })
+  ids.findOneAndUpdate(
+    {
+      name: 'user',
+    },
+    {
+      // $inc 需要自增的字段
+      $inc: {
+        id: +1
+      }
+    },
+    {
+      upsert: true, // 如果该文档不存在则插入
+      returnOriginal: false, // 返回更新是否成功/更新后结果  false返回更新后结果
+    }
+  ).then(id => {
+    users.create({
+      _id: id.id,
+      userName,
+      email,
+      passWord: md5(md5(passWord) + 'xingWiki'),
+      register: Date.now(),
+      status: 1,
+      permission: 'member'
+    }).then(doc => {
+      res.send({ code: 200, msg: '注册成功' })
+    }).catch(err => {
+      // console.log(err)
+      logger.error(err)
+      res.send({ code: 500, msg: '注册失败' })
+    })
   })
 })
 
