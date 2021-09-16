@@ -14,7 +14,6 @@ const ids = require('./../../modules/ids')
 const multer = require('multer')
 // uuid
 const uuid = require('uuid')
-const { Logger } = require('log4js')
 // console.log(uuid.v1);
 // console.log(uuid.v2);
 // console.log(uuid.v3);
@@ -146,6 +145,29 @@ addDoc.use((req, res) => {
     return
   }
   let { title, info, content } = req.body
+
+  // 内容判断
+  if (
+    info.length > 50 ||
+    info.length < 10
+  ) {
+    logger.info(`标题过长/过短 ${user.ip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
+    return res.send({ code: 403, msg: '标题过长/过短' })
+  }
+  if (
+    info.length > 50 ||
+    info.length < 10
+  ) {
+    logger.info(`简介过长/过短 ${user.ip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
+    return res.send({ code: 403, msg: '简介过长/过短' })
+  }
+  if (content.length > 10000 ||
+    content.length < 20
+  ) {
+    logger.info(`内容过长/过短 ${user.ip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
+    return res.send({ code: 403, msg: '简介过长/过短' })
+  }
+
   // 自增ids 自增后就是文章的id
   ids.findOneAndUpdate(
     {

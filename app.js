@@ -77,8 +77,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 
 app.use((req, res, next) => {
-  req.userip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
-  req.userip = req.userip.match(/\d+\.\d+\.\d+\.\d+/)[0]
+  try {
+    req.userip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+    req.userip = req.userip.match(/\d+\.\d+\.\d+\.\d+/)[0]
+  } catch (e) {
+    logger.error(e)
+  }
   next()
 })
 
@@ -202,7 +206,7 @@ app.use('/api/docs/add', require('./router/docs/addDoc'))
 
 // app.use('/', express.static(''))
 const { createProxyMiddleware } = require('http-proxy-middleware');
-const HOST = 'http://127.0.0.1:8080', PORT = '8080';
+const HOST = 'http://127.0.0.1:8081', PORT = '8080';
 app.use(createProxyMiddleware('/', {
   target: HOST, // target host
   changeOrigin: true, // needed for virtual hosted sites
