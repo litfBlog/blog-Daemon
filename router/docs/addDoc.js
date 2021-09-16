@@ -151,20 +151,20 @@ addDoc.use((req, res) => {
     info.length > 50 ||
     info.length < 10
   ) {
-    logger.info(`标题过长/过短 ${user.ip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
+    logger.info(`标题过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
     return res.send({ code: 403, msg: '标题过长/过短' })
   }
   if (
     info.length > 50 ||
     info.length < 10
   ) {
-    logger.info(`简介过长/过短 ${user.ip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
+    logger.info(`简介过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
     return res.send({ code: 403, msg: '简介过长/过短' })
   }
   if (content.length > 10000 ||
     content.length < 20
   ) {
-    logger.info(`内容过长/过短 ${user.ip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
+    logger.info(`内容过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
     return res.send({ code: 403, msg: '简介过长/过短' })
   }
 

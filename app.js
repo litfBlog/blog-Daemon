@@ -201,6 +201,8 @@ app.use('/api/authCode', require('./router/users/authCode'))
 // 文章相关操作
 // 首页文章列表
 app.use('/api/docs/find', require('./router/docs/findDocInIndex'))
+// 查看自己的文章
+app.use('/api/docs/findMyDoc', require('./router/docs/findMyDoc'))
 // 发布文章
 app.use('/api/docs/add', require('./router/docs/addDoc'))
 
