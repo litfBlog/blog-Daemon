@@ -35,6 +35,9 @@ const docSchema = new mongoose.Schema({
   },
   dataUuid: {
     type: String
+  },
+  edits: {
+    type: [Object]
   }
   // 后续可能会加入评论等功能
 })
