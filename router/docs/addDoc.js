@@ -191,7 +191,8 @@ addDoc.use((req, res) => {
       date: Date.now(),
       content,
       author: req.session.uid,
-      dataUuid: req.session.edit.id
+      dataUuid: req.session.edit.id,
+      status: 1
     }).then(doc => {
       res.send({ code: 200, msg: '发布成功' })
     }).catch(err => {

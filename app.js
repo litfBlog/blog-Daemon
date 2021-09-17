@@ -203,6 +203,7 @@ app.use('/api/authCode', require('./router/users/authCode'))
 app.use('/api/docs/find', require('./router/docs/findDocInIndex'))
 // 查看自己的文章
 app.use('/api/docs/findMyDoc', require('./router/docs/findMyDoc'))
+app.use('/api/docs/rmMyDoc', require('./router/docs/rmDoc'))
 // 发布文章
 app.use('/api/docs/add', require('./router/docs/addDoc'))
 

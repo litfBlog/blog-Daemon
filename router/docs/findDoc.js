@@ -19,7 +19,8 @@ router.use('/:dir/:file', (req, res) => {
 router.use('/:id', async (req, res) => {
   // res.send('file')
   let doc = await docs.findOne({
-    _id: req.params.id
+    _id: req.params.id,
+    status: 1
   }).populate('author')
   // console.log(doc);
   if (doc) {
