@@ -210,9 +210,31 @@ app.use('/api/docs/add', require('./router/docs/addDoc'))
 // 修改文章
 app.use('/api/docs/edit', require('./router/docs/editDoc'))
 
+// 后台管理
+app.use('/api/admin/login', require('./router/admin/login'))
+// 验证登录
+app.use('/api/admin', (req, res, next) => {
+  if (req.session.adminIsLogin) {
+    next()
+  } else {
+    res.redirect('/')
+    res.send()
+  }
+})
+// 用户管理
+app.use('/api/admin/user', require('./router/admin/user'))
+
 // app.use('/', express.static(''))
 const { createProxyMiddleware } = require('http-proxy-middleware');
-const HOST = 'http://127.0.0.1:8081', PORT = '8080';
+const HOST = 'http://127.0.0.1:8080', PORT = '8080';
+// app.use(createProxyMiddleware('/adminadmin', {
+//   target: 'htttp://127.0.0.1:8081', // target host
+//   changeOrigin: true, // needed for virtual hosted sites
+//   ws: true, // proxy websockets
+//   pathRewrite: {
+//     '^/adminadmin': '', // rewrite path
+//   }
+// }));
 app.use(createProxyMiddleware('/', {
   target: HOST, // target host
   changeOrigin: true, // needed for virtual hosted sites
@@ -221,6 +243,7 @@ app.use(createProxyMiddleware('/', {
     '^/': '', // rewrite path
   }
 }));
+
 // app.use(['/', '/login'], (req, res) => {
 //   console.log(`http://127.0.0.1:8080${req.path}`);
 //   axios({
