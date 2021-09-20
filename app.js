@@ -223,6 +223,8 @@ app.use('/api/admin', (req, res, next) => {
 })
 // 用户管理
 app.use('/api/admin/user', require('./router/admin/user'))
+// 文章管理
+app.use('/api/admin/page', require('./router/admin/pages'))
 
 // app.use('/', express.static(''))
 const { createProxyMiddleware } = require('http-proxy-middleware');
