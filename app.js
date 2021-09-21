@@ -57,7 +57,7 @@ logger.info('初始化配置文件')
 
 global.config = {}
 
-if (!fs.existsSync('./config.js')) fs.copyFileSync('./core/config.js', './config.js')
+if (!fs.existsSync('./config.js')) fs.copyFileSync('./modules/init_config.js', './config.js')
 
 config.mail = {}
 require('./configDev')
