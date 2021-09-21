@@ -60,7 +60,8 @@ global.config = {}
 if (!fs.existsSync('./config.js')) fs.copyFileSync('./modules/init_config.js', './config.js')
 
 config.mail = {}
-require('./configDev')
+// require('./configDev')
+require('./config')
 
 const uuid = require('uuid')
 
