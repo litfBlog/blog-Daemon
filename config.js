@@ -15,3 +15,5 @@ config.mail.auth = {
   pass: ""
 }
 config.mail.from = ""
+
+config.admin_key_2md5 = '93e3eb81d1576043a222686c2659c791'
