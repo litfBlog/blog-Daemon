@@ -51,10 +51,14 @@ log4js.configure({
     error_log: { appenders: ['error_file'], level: 'error' }//error 等级log 单独输出到error文件中 任何环境的errorlog 将都以日期文件单独记录
   },
 });
+const fs = require('fs')
 
 logger.info('初始化配置文件')
 
 global.config = {}
+
+if (!fs.existsSync('./config.js')) fs.copyFileSync('./core/config.js', './config.js')
+
 config.mail = {}
 require('./configDev')
 

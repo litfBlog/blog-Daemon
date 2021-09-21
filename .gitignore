@@ -8,6 +8,7 @@ test
 /userAvatar/*
 configDev.js
 logs
+./config.js
 
 # local env files
 .env.local
