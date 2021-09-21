@@ -5,11 +5,11 @@
  */
 
 // log
-var log4js = require("log4js");
-global.logger = log4js.getLogger();
-logger.level = "all"; // default level is OFF - which means no logs at all.
-// logger.debug("Some debug messages");
-let programName = "wikilog";
+var log4js = require("log4js")
+global.logger = log4js.getLogger()
+logger.level = "all" // default level is OFF - which means no logs at all.
+// logger.debug("Some debug messages")
+let programName = "wikilog"
 log4js.configure({
   appenders: {
     console: {//记录器1:输出到控制台
@@ -50,7 +50,7 @@ log4js.configure({
     // debug: { appenders: ['console', 'log_file'], level: 'debug' }, //调试环境 输出到log文件和控制台    
     error_log: { appenders: ['error_file'], level: 'error' }//error 等级log 单独输出到error文件中 任何环境的errorlog 将都以日期文件单独记录
   },
-});
+})
 const fs = require('fs')
 
 logger.info('初始化配置文件')
@@ -112,82 +112,14 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'X-Requested-With')
   res.header('Access-Control-Allow-Headers', 'Content-Type')
   res.header('Access-Control-Allow-Credentials', true)
-  //   //     // res.header({
-  //   //     // res.header('Access-Control-Allow-Origin', '*')
-  //   //     // res.header('Set-Cookie', 'myCookie=connect.sid; Domain=http://localhost/; Path=/login;')
-  //   //     // res.header('Content-Type', 'text/plain')
-
-  //   //     res.setHeader('Access-Control-Allow-Credentials', true)
-  //   //     //因为设置允许携带cookie之后那么请求头Access-Control-Allow-Origin的值就不能设置为*，所以要另外指向一个
-  //   //     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080/login')
-  //   //     // })
-  //   //   }
   next()
 })
-// const cors = require('cors')
-// // var app = express()
 
-// app.use(
-//   cors({
-//     credentials: true,
-
-//     origin: 'http://127.0.0.1:8080', // web前端服务器地址
-
-//     // origin: '*' // 这样会出错
-//   })
-// )
-// app.all('*', function (req, res, next) {
-//   res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8080') //必须是具体网址 不是 *
-//   res.header('Access-Control-Allow-Credentials: true') //是否支持cookie跨域
-//   res.header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept')
-
-//   res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
-
-//   res.header('X-Powered-By', ' 3.2.1')
-//   if (req.method == 'OPTIONS') {
-//     res.status(200)
-//     // return
-//   }
-//   next()
-// })
-
-// app.use((req, res) => {
-//   console.log(req.session)
-//   req.session.set = 'set'
-//   console.log(req.session)
-//   res.send('1')
-// })
-
-// 初始化 marked 模块
-// const marked = require('marked')
-// const { default: axios } = require('axios')
-// marked.setOptions({
-//   highlight: function (code) {
-//     return require('highlight.js').highlightAuto(code).value
-//   },
-// })
-// 预留目录+文件 后面做
-// app.use('/docs/:dir/:file', (req, res) => {
-//   console.log(req.params.file)
-//   console.log(req.params.dir)
-//   // console.log(req.params.fill, req.params.dir)
-//   res.send(`two  /${req.params.file}/${req.params.dir}`)
-// })
 // 页面  (接口返回 md转换html后的字符串)
 app.use('/docs', require('./router/docs/findDoc'))
 app.use('/data/img', express.static('./uploads/'))
 app.use('/data/userAvatar', express.static('./userAvatar/'))
-// app.use('/docs/:file', (req, res) => {
-//   console.log(req.params.file)
-//   const fileName = req.params.file + '.md'
-//   fs.readFile(path.join(__dirname, 'docs', fileName), 'utf8', (err, doc) => {
-//     if (err) {
-//       res.status(201).send({ status: 404 })
-//     } else {
-//       res.send(marked(doc))
-//     }
-//   })
-// })
+
 // api相关操作
 // 所有用户相关，文章相关均在此路由
 
@@ -231,43 +163,17 @@ app.use('/api/admin/user', require('./router/admin/user'))
 // 文章管理
 app.use('/api/admin/page', require('./router/admin/pages'))
 
-// app.use('/', express.static(''))
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const HOST = 'http://127.0.0.1:8080', PORT = '8080';
-// app.use(createProxyMiddleware('/adminadmin', {
-//   target: 'htttp://127.0.0.1:8081', // target host
+// const { createProxyMiddleware } = require('http-proxy-middleware')
+// const HOST = 'http://127.0.0.1:8080', PORT = '8080'
+// app.use(createProxyMiddleware('/', {
+//   target: HOST, // target host
 //   changeOrigin: true, // needed for virtual hosted sites
 //   ws: true, // proxy websockets
 //   pathRewrite: {
-//     '^/adminadmin': '', // rewrite path
+//     '^/': '', // rewrite path
 //   }
-// }));
-app.use(createProxyMiddleware('/', {
-  target: HOST, // target host
-  changeOrigin: true, // needed for virtual hosted sites
-  ws: true, // proxy websockets
-  pathRewrite: {
-    '^/': '', // rewrite path
-  }
-}));
+// }))
 
-// app.use(['/', '/login'], (req, res) => {
-//   console.log(`http://127.0.0.1:8080${req.path}`);
-//   axios({
-//     method: 'GET',
-//     url: `http://127.0.0.1:8080${req.path}`
-//   }).then(doc => {
-//     res.send(doc.data)
-//   }).catch(err => {
-//     console.log(err);
-//   })
-// })
-
-// app.use('/css', express.static('./public/css'))
-// app.use('/js', express.static('./public/js'))
-// app.use('/img', express.static('./public/img'))
-// app.use('/fonts', express.static('./public/fonts'))
-// app.use('/', express.static('./public'))
 // 监听端口
 app.listen(config.port, () => {
   // console.log('listen ' + config.port)
