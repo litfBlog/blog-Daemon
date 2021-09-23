@@ -48,7 +48,7 @@ router.use('/upavatar', (req, res) => {
         if (avatarFileName) fs.renameSync(`./userAvatar/${avatarFileName}`, `./delLoads/${avatarFileName}`)
         // 更新数据库数据
         await users.updateOne({ _id: req.session.uid }, {
-          avatar: `/data/userAvatar/${filename}`,
+          avatar: `/api/data/userAvatar/${filename}`,
           avatarFileName: filename
         })
         res.send({ code: 200 })

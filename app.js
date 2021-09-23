@@ -115,13 +115,16 @@ app.use((req, res, next) => {
   next()
 })
 
-// 页面  (接口返回 md转换html后的字符串)
-app.use('/docs', require('./router/docs/findDoc'))
-app.use('/data/img', express.static('./uploads/'))
-app.use('/data/userAvatar', express.static('./userAvatar/'))
+// app.use('/data/img', express.static('./uploads/'))
+// app.use('/data/userAvatar', express.static('./userAvatar/'))
 
 // api相关操作
 // 所有用户相关，文章相关均在此路由
+
+// 文章中的图片
+app.use('/api/data/img', express.static('./uploads/'))
+// 用户头像
+app.use('/api/data/userAvatar', express.static('./userAvatar/'))
 
 // 用户相关
 // 登录
@@ -136,6 +139,8 @@ app.use('/api/user/setInfo', require('./router/users/setInfo'))
 app.use('/api/authCode', require('./router/users/authCode'))
 
 // 文章相关操作
+// 单个页面  (返回 md转换html后的字符串)
+app.use('/api/docs/findOne', require('./router/docs/findDoc'))
 // 首页文章列表
 app.use('/api/docs/find', require('./router/docs/findDocInIndex'))
 // 查看自己的文章

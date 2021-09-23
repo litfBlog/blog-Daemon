@@ -101,7 +101,7 @@ addDoc.use('/upImg', (req, res) => {
         logger.error(err)
         res.send({ code: 500, msg: '上传失败' })
       } else {
-        res.send({ code: 200, path: `/data/img/${req.session.edit.id}/${req.files[0].filename + path.parse(req.files[0].originalname).ext}` })
+        res.send({ code: 200, path: `/api/data/img/${req.session.edit.id}/${req.files[0].filename + path.parse(req.files[0].originalname).ext}` })
       }
     })
   } else {
