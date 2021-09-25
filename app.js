@@ -143,6 +143,8 @@ app.use('/api/authCode', require('./router/users/authCode'))
 app.use('/api/docs/findOne', require('./router/docs/findDoc'))
 // 首页文章列表
 app.use('/api/docs/find', require('./router/docs/findDocInIndex'))
+// 搜索
+app.use('/api/docs/search', require('./router/docs/search'))
 // 查看自己的文章
 app.use('/api/docs/findMyDoc', require('./router/docs/findMyDoc'))
 // 删除自己的文章
