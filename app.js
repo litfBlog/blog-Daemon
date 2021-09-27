@@ -155,6 +155,8 @@ app.use('/api/docs/add', require('./router/docs/addDoc'))
 app.use('/api/docs/edit', require('./router/docs/editDoc'))
 
 // 后台管理
+app.use(config.admin_path, express.static('./public'))
+// 登录
 app.use('/api/admin/login', require('./router/admin/login'))
 // 验证登录
 app.use('/api/admin', (req, res, next) => {
