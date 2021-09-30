@@ -13,7 +13,15 @@ marked.setOptions({
 })
 
 router.use(async (req, res) => {
-  let { num } = req.body
+  // 每页显示数量 页码  
+  // 页码 - 1 * 数量 开始查找
+  let { num, page } = req.body
+  // 页码 - 1
+  page--
+  // 页码默认 1
+  if (!page) page = 0
+  // 跳过的数量
+  let skip = page * num
   let doc = await docs.find({
     status: 1
   }, {
@@ -25,17 +33,18 @@ router.use(async (req, res) => {
     _id: 1
   }).sort({
     $natural: 1
-  }).limit(num).populate('author')
-  // console.log(doc);
-  // console.log(doc);
+  }).skip(skip).limit(num).populate('author')
+  // 文章总数
+  let allNum = await docs.find({
+    status: 1
+  }, {
+
+    _id: 1
+  })
   if (doc) {
-    // for (i in doc) {
-    //   doc[i].content = marked(doc[i].content)
-    // }
-    // doc.content = marked(doc.content)
     doc = doc.reverse()
     res.send({
-      code: 200, data: doc
+      code: 200, data: doc, allNum: allNum.length
     })
   }
 })
