@@ -37,17 +37,14 @@ register.use('/register', async (req, res) => {
 
   if (!/^[a-z0-9_-]{3,16}$/.test(userName)) return res.send({ code: 403, msg: '用户名有误' })
   if (!/^[a-z0-9_-]{6,18}$/.test(passWord)) return res.send({ code: 403, msg: '密码格式有误' })
-  if (authCode != req.session.authCode) return res.send({ code: 403, msg: '验证码错误' })
-  req.session.authCode = null
+  // if (authCode != req.session.authCode) return res.send({ code: 403, msg: '验证码错误' })
+  // req.session.authCode = null
   if (emailCode != req.session.mailCode) return res.send({ code: 403, msg: '邮箱验证码错误' })
   let doc = await users.findOne({ userName })
   if (doc) return res.send({ code: 403, msg: '该用户名已被占用' })
   let doc1 = await users.findOne({ email })
   if (doc1) return res.send({ code: 403, msg: '该邮箱已注册' })
 
-  // console.log((req.session.mailDate + (1000 * 60)) < Date.now());
-  // console.log((req.session.mailDate + (1000 * 60 * 5)) > Date.now());
-  // console.log(req.session);
 
   if (
     (req.session.mailDate + (1000 * 60 * 5)) > Date.now()
