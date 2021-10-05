@@ -72,7 +72,7 @@ register.use('/register', async (req, res) => {
     users.create({
       _id: id.id,
       userName,
-      email,
+      email: req.session.mailCode_Mail,
       passWord: md5(md5(passWord) + 'xingWiki'),
       register: Date.now(),
       status: 1,

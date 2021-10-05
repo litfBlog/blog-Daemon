@@ -34,7 +34,7 @@ register.use(async (req, res) => {
   }
   req.session.mailCode = code
   req.session.mailDate = Date.now()
-
+  req.session.mailCode_Mail = email
   sendMail(email, 'html', '用户注册-验证码', `
     您的验证码是 ${code}
   `)
