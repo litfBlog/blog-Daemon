@@ -115,9 +115,6 @@ app.use((req, res, next) => {
   next()
 })
 
-// app.use('/data/img', express.static('./uploads/'))
-// app.use('/data/userAvatar', express.static('./userAvatar/'))
-
 // api相关操作
 // 所有用户相关，文章相关均在此路由
 
@@ -172,6 +169,7 @@ app.use('/api/admin/user', require('./router/admin/user'))
 // 文章管理
 app.use('/api/admin/page', require('./router/admin/pages'))
 
+// dev 环境代理
 if (config.dev) {
   const { createProxyMiddleware } = require('http-proxy-middleware')
   const HOST = 'http://127.0.0.1:8080', PORT = '8080'
