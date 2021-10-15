@@ -1,4 +1,5 @@
 /**
+ * 获取单个界面
  * @Author: litfa
  * @Date: 2021-8-28
  */
@@ -17,13 +18,15 @@ router.use('/:dir/:file', (req, res) => {
 })
 // 单个页面
 router.use('/:id', async (req, res) => {
-  // res.send('file')
+  // 查询数据库
   let doc = await docs.findOne({
     _id: req.params.id,
     status: 1
   }).populate('author')
-  // console.log(doc);
   if (doc) {
+    // 异步函数增加阅读量
+    // 
+    // 转换 markdown
     doc.content = marked(doc.content)
     res.send({
       code: 200, data: doc

@@ -45,8 +45,14 @@ const docSchema = new mongoose.Schema({
   // 编辑记录
   edits: {
     type: [Object]
-  }
+  },
   // 后续可能会加入评论等功能
+
+  // 阅读量
+  yueDuLiang: {
+    type: Number,
+    default: 0
+  }
 })
 const docs = mongoose.model('Docs', docSchema)
 
