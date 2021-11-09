@@ -24,13 +24,26 @@ router.use('/:id', async (req, res) => {
     status: 1
   }).populate('author')
   if (doc) {
-    // 异步函数增加阅读量
-    // 
     // 转换 markdown
     doc.content = marked(doc.content)
     res.send({
       code: 200, data: doc
     })
+    // 增加阅读量
+    if (req.session.isLogin) {
+      // console.log('自增');
+      docs.findByIdAndUpdate({
+        _id: req.params.id
+      }, {
+        $push: {
+          views: {
+            // 记录用户id及阅读时间
+            _id: req.session.uid,
+            date: Date.now()
+          }
+        }
+      }).then()
+    }
   } else {
     res.send({ code: 404 })
   }
