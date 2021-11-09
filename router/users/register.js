@@ -24,7 +24,7 @@ register.use('/find', async (req, res) => {
   if (doc) {
     res.send({ code: 200, status: 'no' })
   } else {
-    res.send({ code: 200, status: "ok" })
+    res.send({ code: 200, status: 'ok' })
   }
 })
 
@@ -45,7 +45,6 @@ register.use('/register', async (req, res) => {
   let doc1 = await users.findOne({ email })
   if (doc1) return res.send({ code: 403, msg: '该邮箱已注册' })
 
-
   if (
     (req.session.mailDate + (1000 * 60 * 5)) > Date.now()
   ) {
@@ -58,7 +57,7 @@ register.use('/register', async (req, res) => {
 
   ids.findOneAndUpdate(
     {
-      name: 'user',
+      name: 'user'
     },
     {
       // $inc 需要自增的字段
@@ -68,7 +67,7 @@ register.use('/register', async (req, res) => {
     },
     {
       upsert: true, // 如果该文档不存在则插入
-      returnOriginal: false, // 返回更新是否成功/更新后结果  false返回更新后结果
+      returnOriginal: false // 返回更新是否成功/更新后结果  false返回更新后结果
     }
   ).then(id => {
     users.create({

@@ -8,12 +8,13 @@ const fs = require('fs')
 
 const addDoc = require('express')()
 const docs = require('./../../modules/docs')
-const ids = require('./../../modules/ids')
+// const ids = require('./../../modules/ids')
 
 // 引入multer中间件，用于处理上传的文件数据
 const multer = require('multer')
+
 // uuid
-const uuid = require('uuid')
+// const uuid = require('uuid')
 // console.log(uuid.v1);
 // console.log(uuid.v2);
 // console.log(uuid.v3);
@@ -53,7 +54,7 @@ addDoc.use('/init', async (req, res) => {
     author: req.session.uid,
     status: 1
   })
-  console.log(doc);
+  console.log(doc)
   if (doc) {
     req.session.edit = {
       editing: true,
@@ -65,7 +66,7 @@ addDoc.use('/init', async (req, res) => {
       type: 'editing',
       content: doc.content,
       title: doc.title,
-      info: doc.info,
+      info: doc.info
     })
   } else {
     res.send({ code: 500 })
@@ -221,7 +222,7 @@ addDoc.use(async (req, res) => {
         oldInfo,
         newContent: content,
         newTitle: title,
-        newInfo: info,
+        newInfo: info
       }
     }
   }).then(() => {

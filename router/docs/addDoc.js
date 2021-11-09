@@ -1,4 +1,4 @@
-/**
+/*
  * 发布文章
  * @Author: litfa
  * @Date: 2021-8-28
@@ -171,7 +171,7 @@ addDoc.use((req, res) => {
   // 自增ids 自增后就是文章的id
   ids.findOneAndUpdate(
     {
-      name: 'docs',
+      name: 'docs'
     },
     {
       // $inc 需要自增的字段
@@ -181,7 +181,7 @@ addDoc.use((req, res) => {
     },
     {
       upsert: true, // 如果该文档不存在则插入
-      returnOriginal: false, // 返回更新是否成功/更新后结果  false返回更新后结果
+      returnOriginal: false // 返回更新是否成功/更新后结果  false返回更新后结果
     }
   ).then(id => {
     docs.create({
@@ -193,7 +193,7 @@ addDoc.use((req, res) => {
       author: req.session.uid,
       dataUuid: req.session.edit.id,
       status: 1
-    }).then(doc => {
+    }).then(() => {
       res.send({ code: 200, msg: '发布成功' })
     }).catch(err => {
       // console.log(err)

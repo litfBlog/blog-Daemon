@@ -11,9 +11,9 @@ config.mail.host = ''
 config.mail.secureConnection = true
 config.mail.port = 465
 config.mail.auth = {
-  user: "",
-  pass: ""
+  user: '',
+  pass: ''
 }
-config.mail.from = ""
+config.mail.from = ''
 
 config.admin_key_2md5 = '93e3eb81d1576043a222686c2659c791'

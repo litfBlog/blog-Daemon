@@ -6,39 +6,40 @@ const userSchema = new mongoose.Schema({
   userName: {
     type: String,
     required: true,
-    maxlength: 20,
+    maxlength: 20
   },
   // 密码
   passWord: {
     type: String,
-    required: true,
+    required: true
   },
   // 头像
   avatar: {
-    type: String,
+    type: String
   },
   // 头像文件名
   avatarFileName: {
-    type: String,
+    type: String
   },
   // 邮箱
   email: {
     type: String,
     required: true,
     minlength: 5,
-    unique: true,
+    unique: true
   },
   // 状态
   status: {
     type: Number,
-    default: 1,
+    default: 1
   },
   // 权限
   permission: {
     type: String,
-    default: 'member',
-  },
+    default: 'member'
+  }
 })
 const user = mongoose.model('User', userSchema)
 
 module.exports = user
+

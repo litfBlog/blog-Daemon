@@ -25,10 +25,10 @@ const sendMail = (to, type, title, content) => {
 
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
-            console.log(err);
+            console.log(err)
         } else {
-            console.log(`发送成功：`);
-            console.log(info);
+            console.log(`发送成功：`)
+            console.log(info)
         }
     })
 }

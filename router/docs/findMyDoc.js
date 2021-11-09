@@ -26,5 +26,4 @@ router.use(async (req, res) => {
   }
 })
 
-
 module.exports = router

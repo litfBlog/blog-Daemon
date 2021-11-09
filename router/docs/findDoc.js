@@ -4,13 +4,13 @@
  * @Date: 2021-8-28
  */
 const router = require('express')()
-const docs = require('./../../modules/docs.js');
+const docs = require('./../../modules/docs.js')
 
 const marked = require('marked')
 marked.setOptions({
   highlight: function (code) {
     return require('highlight.js').highlightAuto(code).value
-  },
+  }
 })
 // 目录+页面
 router.use('/:dir/:file', (req, res) => {

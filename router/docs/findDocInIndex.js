@@ -9,7 +9,7 @@ const marked = require('marked')
 marked.setOptions({
   highlight: function (code) {
     return require('highlight.js').highlightAuto(code).value
-  },
+  }
 })
 
 router.use(async (req, res) => {
@@ -48,6 +48,5 @@ router.use(async (req, res) => {
     })
   }
 })
-
 
 module.exports = router

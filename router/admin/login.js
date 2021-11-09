@@ -5,7 +5,7 @@
  */
 
 const login = require('express')()
-const users = require('./../../modules/users')
+// const users = require('./../../modules/users')
 const md5 = require('md5')
 
 login.use('/unlogin', (req, res) => {
@@ -19,7 +19,7 @@ login.use('/unlogin', (req, res) => {
 // 已在 app.js 声明路由
 login.use(async (req, res) => {
   logger.info(`用户登录 ip:${req.userip} ${JSON.stringify(req.body)}`)
-  console.log(req.body);
+  console.log(req.body)
   let { passWord1, passWord2, passWord3 } = req.body
   let passWord = passWord1 + passWord2 + passWord3
   passWord = md5(md5(passWord))

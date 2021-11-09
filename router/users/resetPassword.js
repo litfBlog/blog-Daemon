@@ -1,16 +1,15 @@
-const path = require('path')
-const fs = require('fs')
+// const path = require('path')
+// const fs = require('fs')
 
 const router = require('express')()
 
 // 引入multer中间件，用于处理上传的文件数据
-const multer = require('multer')
+// const multer = require('multer')
 // uuid
 // const uuid = require('uuid')
 const users = require('./../../modules/users')
 const md5 = require('md5')
-const sendMail = require("./../../modules/sendMail")
-
+const sendMail = require('./../../modules/sendMail')
 
 // 已在 app.js 声明路由
 router.use('/auth', (req, res) => {
@@ -28,7 +27,7 @@ router.use('/auth', (req, res) => {
     return res.send({ code: 200, msg: '获取过于频繁' })
   }
 
-  let code = ""
+  let code = ''
   for (let i = 1; i <= 6; i++) {
     code += Math.floor(Math.random() * 10)
   }
@@ -44,7 +43,7 @@ router.use('/auth', (req, res) => {
 
 router.use('/reSet', (req, res) => {
   logger.info(`重置密码 ${JSON.stringify(req.body)}`)
-  let { email, authCode, emailCode, newPassWord } = req.body
+  let { authCode, emailCode, newPassWord } = req.body
 
   // if (!/^[a-z0-9_-]{3,16}$/.test(userName)) return res.send({ code: 403, msg: '用户名有误' })
   // if (!/^[a-z0-9_-]{6,18}$/.test(passWord)) return res.send({ code: 403, msg: '密码格式有误' })
@@ -63,12 +62,14 @@ router.use('/reSet', (req, res) => {
 
   if (
     (req.session.mailDate + (1000 * 60 * 5)) > Date.now()
-  ) { } else {
+  ) {
+    // 
+  } else {
     return res.send({ code: 403, msg: '验证码已过期' })
   }
   users.updateOne({ email: req.session.email }, {
     passWord: md5(md5(newPassWord) + 'xingWiki')
-  }).then(doc => {
+  }).then(() => {
     res.send({ code: 200, msg: '注册成功' })
   }).catch(err => {
     // console.log(err)
@@ -78,3 +79,4 @@ router.use('/reSet', (req, res) => {
 })
 
 module.exports = router
+
