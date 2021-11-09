@@ -8,7 +8,7 @@ const register = require('express')()
 const users = require('./../../modules/users')
 const ids = require('./../../modules/ids')
 
-const sendMail = require("./../../modules/sendMail")
+// const sendMail = require("./../../modules/sendMail")
 
 const md5 = require('md5')
 
@@ -33,7 +33,7 @@ register.use('/auth', require('./authEmail'))
 
 register.use('/register', async (req, res) => {
   logger.info(`注册 ${req.userip}, ${JSON.stringify(req.body)}`)
-  let { userName, email, passWord, authCode, emailCode } = req.body
+  let { userName, email, passWord, emailCode } = req.body
 
   if (!/^[a-z0-9_-]{3,16}$/.test(userName)) return res.send({ code: 403, msg: '用户名有误' })
   if (!/^[a-z0-9_-]{6,18}$/.test(passWord)) return res.send({ code: 403, msg: '密码格式有误' })
@@ -48,7 +48,9 @@ register.use('/register', async (req, res) => {
 
   if (
     (req.session.mailDate + (1000 * 60 * 5)) > Date.now()
-  ) { } else {
+  ) {
+    // 
+  } else {
     return res.send({ code: 403, msg: '验证码已过期' })
   }
 
@@ -77,7 +79,7 @@ register.use('/register', async (req, res) => {
       register: Date.now(),
       status: 1,
       permission: 'member'
-    }).then(doc => {
+    }).then(() => {
       res.send({ code: 200, msg: '注册成功' })
     }).catch(err => {
       // console.log(err)

@@ -4,7 +4,7 @@
  * @Date: 2021-8-28
  */
 const router = require('express')()
-const docs = require('./../../modules/docs.js')
+const docs = require('./../../modules/docs.js');
 
 const marked = require('marked')
 marked.setOptions({
