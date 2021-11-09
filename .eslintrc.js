@@ -6,22 +6,7 @@ module.exports = {
   },
   extends: 'eslint:recommended',
   globals: {
-    // Atomics: "readonly",
-    // SharedArrayBuffer: "readonly",
-    // MCSERVER: "writeable",
     __dirname: 'writeable',
-    // Buffer: "writeable",
-    // Vue: "readonly",
-    // MI: "writeable",
-    // MS: "writeable",
-    // TOOLS: "writeable",
-    // VIEW_MODEL: "writeable",
-    // RES: "readonly",
-    // PAGE: "writeable",
-    // $: "writeable",
-    // WS: "readonly",
-    // hex_md5: "readonly",
-    // process: "readonly",
     logger: 'readonly',
     config: 'readonly'
   },
@@ -49,6 +34,7 @@ module.exports = {
     'semi': ['error', 'never'],
     'no-multiple-empty-lines': ['error', { 'max': 1 }],
     'comma-dangle': ['error', 'never'],
-    'quotes': ['error', 'single']
+    'quotes': ['error', 'single'],
+    'spaced-comment': ['error', 'always']
   }
 }
