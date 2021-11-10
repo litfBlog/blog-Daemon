@@ -1,4 +1,4 @@
-const ndoemailer = require("nodemailer")
+const ndoemailer = require('nodemailer')
 
 const sendMail = (to, type, title, content) => {
     let transporter = ndoemailer.createTransport({
@@ -15,11 +15,11 @@ const sendMail = (to, type, title, content) => {
     let mailOptions = {
         from: config.mail.from,
         to: to,
-        subject: title,
+        subject: title
     }
-    if (type == "html") {
+    if (type == 'html') {
         mailOptions.html = content
-    } else if (type == "text") {
+    } else if (type == 'text') {
         mailOptions.text = content
     }
 
@@ -27,7 +27,7 @@ const sendMail = (to, type, title, content) => {
         if (err) {
             console.log(err)
         } else {
-            console.log(`发送成功：`)
+            console.log('发送成功：')
             console.log(info)
         }
     })

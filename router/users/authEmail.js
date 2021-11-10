@@ -5,10 +5,9 @@
 const register = require('express')()
 const users = require('./../../modules/users')
 
-const sendMail = require("./../../modules/sendMail")
+const sendMail = require('./../../modules/sendMail')
 
-const md5 = require('md5')
-
+// const md5 = require('md5')
 
 // 已声明路由
 register.use(async (req, res) => {
@@ -28,7 +27,7 @@ register.use(async (req, res) => {
     return res.send({ code: 200, msg: '获取过于频繁' })
   }
 
-  let code = ""
+  let code = ''
   for (let i = 1; i <= 6; i++) {
     code += Math.floor(Math.random() * 10)
   }

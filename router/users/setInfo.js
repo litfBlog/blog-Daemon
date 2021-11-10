@@ -13,9 +13,9 @@ const users = require('./../../modules/users')
 router.use(multer({
   dest: './userAvatar',
   limits: {
-    //限制文件大小10MB
+    // 限制文件大小10MB
     fileSize: 10485760,
-    //限制文件数量
+    // 限制文件数量
     files: 1
   },
   fileFilter: function (req, file, cb) {
@@ -30,7 +30,7 @@ router.use(multer({
 
 router.use('/upavatar', (req, res) => {
   console.log(req.files)
-  console.log(req.session);
+  console.log(req.session)
   // 判断文件大小及类型
   if (req.files[0].mimetype == 'image/png' || req.files[0].mimetype == 'image/jpg' || req.files[0].mimetype == 'image/jpeg') {
     const filename = req.files[0].filename + path.parse(req.files[0].originalname).ext

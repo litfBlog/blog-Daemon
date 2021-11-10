@@ -1,7 +1,7 @@
 const router = require('express')()
 // const users = require('./../../modules/users')
 const pages = require('./../../modules/docs')
-const md5 = require('md5')
+// const md5 = require('md5')
 
 router.use('/getPages', async (req, res) => {
   let pagesData = await pages.find().populate('author')
@@ -28,6 +28,5 @@ router.use('/edit', async (req, res) => {
     res.send(err)
   })
 })
-
 
 module.exports = router
