@@ -1,16 +1,5 @@
-/**
- * 个人页面显示自己的文章
- * @Author: litfa
- */
 const router = require('express')()
 const docs = require('./../../modules/docs.js')
-
-// const marked = require('marked')
-// marked.setOptions({
-//   highlight: function (code) {
-//     return require('highlight.js').highlightAuto(code).value
-//   },
-// })
 
 router.use(async (req, res) => {
   let { num } = req.body

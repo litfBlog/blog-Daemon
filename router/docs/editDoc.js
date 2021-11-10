@@ -98,9 +98,9 @@ addDoc.use('/init', async (req, res) => {
 addDoc.use(multer({
   dest: './uploads',
   limits: {
-    //限制文件大小10MB
+    // 限制文件大小10MB
     fileSize: 10485760,
-    //限制文件数量
+    // 限制文件数量
     files: 1
   },
   fileFilter: function (req, file, cb) {

@@ -1,7 +1,3 @@
-/**
- * @Author: litfa
- * @Date: 2021-9-2
- */
 const router = require('express')()
 const docs = require('./../../modules/docs.js')
 
@@ -30,19 +26,25 @@ router.use(async (req, res) => {
     date: 1,
     author: 1,
     status: 1,
+    views: 1,
     _id: 1
   }).sort({
+    // 排序
     $natural: 1
   }).skip(skip).limit(num).populate('author')
   // 文章总数
   let allNum = await docs.find({
     status: 1
   }, {
-
     _id: 1
   })
   if (doc) {
+    // 倒序
     doc = doc.reverse()
+    // 阅读量数据改为数字
+    for (let i in doc) {
+      doc[i].views = doc[i].views.length
+    }
     res.send({
       code: 200, data: doc, allNum: allNum.length
     })

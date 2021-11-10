@@ -1,8 +1,3 @@
-/**
- * 获取单个界面
- * @Author: litfa
- * @Date: 2021-8-28
- */
 const router = require('express')()
 const docs = require('./../../modules/docs.js')
 
@@ -26,12 +21,23 @@ router.use('/:id', async (req, res) => {
   if (doc) {
     // 转换 markdown
     doc.content = marked(doc.content)
+    // views 用于储存阅读数据
+    let views = doc.views
+    // 原数据改为阅读量数字传递给前端
+    doc.views = views.length
+
     res.send({
       code: 200, data: doc
     })
     // 增加阅读量
     if (req.session.isLogin) {
-      // console.log('自增');
+      for (let i in views) {
+        // 判断用户是否看过该文章，若看不增加阅读量
+        if (req.session.uid == views[i]._id) {
+          // 看过直接 return 不再自增
+          return
+        }
+      }
       docs.findByIdAndUpdate({
         _id: req.params.id
       }, {
