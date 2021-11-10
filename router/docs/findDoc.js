@@ -30,14 +30,17 @@ router.use('/:id', async (req, res) => {
       code: 200, data: doc
     })
     // 增加阅读量
+    // 登录用户
     if (req.session.isLogin) {
       for (let i in views) {
-        // 判断用户是否看过该文章，若看不增加阅读量
-        if (req.session.uid == views[i]._id) {
+        // 判断用户是否看过该文章，若看过不增加阅读量
+        // 该项有 _id 且等于该用户 id
+        if (views[i]._id && req.session.uid == views[i]._id) {
           // 看过直接 return 不再自增
           return
         }
       }
+      // push 数据
       docs.findByIdAndUpdate({
         _id: req.params.id
       }, {
@@ -45,6 +48,31 @@ router.use('/:id', async (req, res) => {
           views: {
             // 记录用户id及阅读时间
             _id: req.session.uid,
+            ip: req.userip,
+            date: Date.now()
+          }
+        }
+      }).then()
+      // 未登录 通过ip判断
+    } else {
+      // 判断该ip是否看过该文章
+      for (let i in views) {
+        // 判断用户是否看过该文章，若看过不增加阅读量
+        // 该项有 ip 且等于该用户 ip
+        if (views[i].ip && req.userip == views[i].ip) {
+          // 看过直接 return 不再自增
+          return
+        }
+      }
+      // push 数据
+      docs.findByIdAndUpdate({
+        _id: req.params.id
+      }, {
+        $push: {
+          views: {
+            // 记录用户 ip 及阅读时间
+            // _id: req.session.uid,
+            ip: req.userip,
             date: Date.now()
           }
         }
