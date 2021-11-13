@@ -26,6 +26,7 @@ member: 成员
 3: 删除(删除不删除数据库 仅隐藏文章)
 只要不是1就不展示
 
+[状态码](https://github.com/litfa/wiki-daemon/wiki/%E7%8A%B6%E6%80%81%E7%A0%81%E5%8F%8A%E7%94%A8%E6%88%B7%E7%8A%B6%E6%80%81%E8%AF%B4%E6%98%8E)
 
 # 功能列表
 - 文章通过id访问 √
