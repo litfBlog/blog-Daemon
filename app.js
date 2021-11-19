@@ -169,20 +169,6 @@ app.use('/api/admin/user', require('./router/admin/user'))
 // 文章管理
 app.use('/api/admin/page', require('./router/admin/pages'))
 
-// dev 环境代理
-if (config.dev) {
-  const { createProxyMiddleware } = require('http-proxy-middleware')
-  const HOST = 'http://127.0.0.1:8080'
-  app.use(createProxyMiddleware('/', {
-    target: HOST, // target host
-    changeOrigin: true, // needed for virtual hosted sites
-    ws: true, // proxy websockets
-    pathRewrite: {
-      '^/': '' // rewrite path
-    }
-  }))
-}
-
 // 监听端口
 app.listen(config.port, () => {
   // console.log('listen ' + config.port)
