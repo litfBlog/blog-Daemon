@@ -9,15 +9,26 @@ marked.setOptions({
 })
 
 router.use(async (req, res) => {
+  // 第一页应该显示最后十条
+  // 总的 - 当前页 开始查找
+
   // 每页显示数量 页码  
   // 页码 - 1 * 数量 开始查找
   let { num, page } = req.body
-  // 页码 - 1
-  page--
   // 页码默认 1
-  if (!page) page = 0
-  // 跳过的数量
+  if (!page) page = 1
+  // 跳过的数量 每页显示数*页码
   let skip = page * num
+  // 文章总数
+  let allNum = await docs.find({
+    status: 1
+  }, {
+    _id: 1
+  })
+
+  // 总的 - 当前页 开始查找
+  skip = allNum.length - skip
+  // 文章
   let doc = await docs.find({
     status: 1
   }, {
@@ -32,12 +43,7 @@ router.use(async (req, res) => {
     // 排序
     $natural: 1
   }).skip(skip).limit(num).populate('author')
-  // 文章总数
-  let allNum = await docs.find({
-    status: 1
-  }, {
-    _id: 1
-  })
+
   if (doc) {
     // 倒序
     doc = doc.reverse()
