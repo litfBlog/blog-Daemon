@@ -7,6 +7,10 @@
     "blog"
   ],
   "main": "app.js",
+  "scripts": {
+    "serve": "nodemon app",
+    "start": "node app"
+  },
   "author": "litfa",
   "readmeFilename": "README.md",
   "license": "MIT",
