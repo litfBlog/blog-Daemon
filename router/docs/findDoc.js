@@ -1,12 +1,12 @@
 const router = require('express')()
 const docs = require('./../../modules/docs.js')
 
-const marked = require('marked')
-marked.setOptions({
-  highlight: function (code) {
-    return require('highlight.js').highlightAuto(code).value
-  }
-})
+// const marked = require('marked')
+// marked.setOptions({
+//   highlight: function (code) {
+//     return require('highlight.js').highlightAuto(code).value
+//   }
+// })
 // 目录+页面
 router.use('/:dir/:file', (req, res) => {
   res.send('dir')
@@ -20,7 +20,7 @@ router.use('/:id', async (req, res) => {
   }).populate('author')
   if (doc) {
     // 转换 markdown
-    doc.content = marked(doc.content)
+    // doc.content = marked(doc.content)
     // views 用于储存阅读数据
     let views = doc.views
     // 原数据改为阅读量数字传递给前端
