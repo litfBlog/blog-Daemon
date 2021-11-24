@@ -10,6 +10,11 @@ configDev.js
 logs
 config.js
 
+# pkg
+app-linux
+app-macos
+app-win.exe
+
 # local env files
 .env.local
 .env.*.local
