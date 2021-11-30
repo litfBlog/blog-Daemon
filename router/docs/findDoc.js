@@ -28,22 +28,25 @@ router.use('/:id', async (req, res) => {
 
     // 点赞
     // 无点赞 空数组
-    if (!doc.liked) doc.liked = []
+    if (!doc.likes) doc.likes = []
     // 默认未点过
-    doc.liked = false
+    // mongo查询对象无法添加值
+    let liked = false
     // 循环判断
     // 登录用户
     if (req.session.isLogin) {
       for (let i in doc.likes) {
         if (doc.likes[i]._id || doc.likes[i]._id == req.session.uid) {
-          doc.liked = true
+          liked = true
+          break
         }
       }
     } else {
       // 未登录 判断ip
       for (let i in doc.likes) {
-        if (doc.likes[i].ip === req.userIp) {
-          doc.liked = true
+        if (doc.likes[i].ip === req.userip) {
+          liked = true
+          break
         }
       }
     }
@@ -51,7 +54,7 @@ router.use('/:id', async (req, res) => {
     doc.likes = doc.likes.length
 
     res.send({
-      code: 200, data: doc
+      code: 200, data: doc, liked
     })
     // 增加阅读量
     // 登录用户

@@ -13,6 +13,7 @@ router.use(async (req, res) => {
     author: 1,
     status: 1,
     views: 1,
+    likes: 1,
     _id: 1
   }).limit(num).populate('author')
   if (doc) {
@@ -20,6 +21,11 @@ router.use(async (req, res) => {
     // 阅读量数据改为数字
     for (let i in doc) {
       doc[i].views = doc[i].views.length
+    }
+    // 点赞量数据改为数字
+    for (let i in doc) {
+      if (!doc[i].likes) doc[i].likes = []
+      doc[i].likes = doc[i].likes.length
     }
     res.send({
       code: 200, data: doc
