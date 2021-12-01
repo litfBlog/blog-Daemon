@@ -28,6 +28,10 @@ router.use(async (req, res) => {
 
   // 总的 - 当前页 开始查找
   skip = allNum.length - skip
+  // 文章少于一页从0查找，不能是负数
+  if (skip < 0) {
+    skip = 0
+  }
   // 文章
   let doc = await docs.find({
     status: 1
