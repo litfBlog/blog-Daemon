@@ -50,6 +50,11 @@ const docSchema = new mongoose.Schema({
   views: {
     type: [Object],
     default: []
+  },
+  // 点赞
+  likes: {
+    type: [Object],
+    default: []
   }
 })
 const docs = mongoose.model('Docs', docSchema)

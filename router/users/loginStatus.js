@@ -23,6 +23,11 @@ loginStatus.use(async (req, res) => {
     for (let i in doc) {
       views += doc[i].views.length
     }
+    // 统计累计阅读量
+    let likes = 0
+    for (let i in doc) {
+      likes += doc[i].likes.length
+    }
     res.send({
       code: 200, data: {
         isLogin: true,
@@ -35,9 +40,8 @@ loginStatus.use(async (req, res) => {
         pagesNum: doc.length,
         // 阅读量
         viewsNum: views,
-        // 点赞和粉丝 先写死
-        fansNum: 0,
-        loveNum: 0
+        // 获赞
+        likesNum: likes
       }
     })
   } else {

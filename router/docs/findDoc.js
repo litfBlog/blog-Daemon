@@ -26,8 +26,35 @@ router.use('/:id', async (req, res) => {
     // 原数据改为阅读量数字传递给前端
     doc.views = views.length
 
+    // 点赞
+    // 无点赞 空数组
+    if (!doc.likes) doc.likes = []
+    // 默认未点过
+    // mongo查询对象无法添加值
+    let liked = false
+    // 循环判断
+    // 登录用户
+    if (req.session.isLogin) {
+      for (let i in doc.likes) {
+        if (doc.likes[i]._id || doc.likes[i]._id == req.session.uid) {
+          liked = true
+          break
+        }
+      }
+    } else {
+      // 未登录 判断ip
+      for (let i in doc.likes) {
+        if (doc.likes[i].ip === req.userip) {
+          liked = true
+          break
+        }
+      }
+    }
+    // 隐藏点赞数据
+    doc.likes = doc.likes.length
+
     res.send({
-      code: 200, data: doc
+      code: 200, data: doc, liked
     })
     // 增加阅读量
     // 登录用户

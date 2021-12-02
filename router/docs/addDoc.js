@@ -78,8 +78,8 @@ addDoc.use(multer({
     files: 1
   },
   fileFilter: function (req, file, cb) {
-    // 限制文件上传类型，仅可上传png格式图片
-    if (file.mimetype == 'image/png' || file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg') {
+    // 限制文件上传类型，仅可上传 png/jpg/gif 格式图片
+    if (file.mimetype == 'image/png' || file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg' || file.mimetype == 'image/gif') {
       cb(null, true)
     } else {
       cb(null, false)
@@ -91,7 +91,7 @@ addDoc.use('/upImg', (req, res) => {
   // console.log(req.files)
   // console.log(req.session);
   logger.info(`上传文件 ${req.userip} ${JSON.stringify(req.files)} ${JSON.stringify(req.session)}`)
-  if (req.files[0].mimetype == 'image/png' || req.files[0].mimetype == 'image/jpg' || req.files[0].mimetype == 'image/jpeg') {
+  if (req.files[0].mimetype == 'image/png' || req.files[0].mimetype == 'image/jpg' || req.files[0].mimetype == 'image/jpeg' || req.files[0].mimetype == 'image/gif') {
     const filename = req.files[0].filename + path.parse(req.files[0].originalname).ext
     // console.log(filename)
     logger.info(filename)

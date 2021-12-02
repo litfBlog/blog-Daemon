@@ -95,6 +95,8 @@ app.use('/api/authCode', require('./router/users/authCode'))
 // 文章相关操作
 // 单个页面  (返回 md转换html后的字符串)
 app.use('/api/docs/findOne', require('./router/docs/findDoc'))
+// 点赞
+app.use('/api/docs/likeDoc', require('./router/docs/likeDoc'))
 // 首页文章列表
 app.use('/api/docs/find', require('./router/docs/findDocInIndex'))
 // 搜索
