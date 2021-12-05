@@ -16,7 +16,12 @@ router.use('/', async (req, res) => {
     title: {
       $regex: key, $options: 'i'
     },
-    status: 1
+    status: 1,
+    $or: [{
+      noSearch: false
+    }, {
+      noSearch: undefined
+    }]
   }, {
     title: 1,
     info: 1,

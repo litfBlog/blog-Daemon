@@ -68,7 +68,8 @@ addDoc.use('/init', async (req, res) => {
       title: doc.title,
       info: doc.info,
       docConfig: {
-        noIndexView: doc.noIndexView
+        noIndexView: doc.noIndexView,
+        noSearch: doc.noSearch
       }
     })
   } else {
@@ -217,6 +218,7 @@ addDoc.use(async (req, res) => {
     title,
     info,
     noIndexView: docConfig.noIndexView,
+    noSearch: docConfig.noSearch,
     $addToSet: {
       edits: {
         date: Date.now(),

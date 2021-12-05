@@ -193,7 +193,8 @@ addDoc.use((req, res) => {
       author: req.session.uid,
       dataUuid: req.session.edit.id,
       status: 1,
-      noIndexView: docConfig.noIndexView
+      noIndexView: docConfig.noIndexView,
+      noSearch: docConfig.noSearch
     }).then(() => {
       res.send({ code: 200, msg: '发布成功' })
     }).catch(err => {

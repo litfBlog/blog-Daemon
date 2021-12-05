@@ -61,6 +61,11 @@ const docSchema = new mongoose.Schema({
   noIndexView: {
     type: Boolean,
     default: false
+  },
+  // 不允许被搜索
+  noSearch: {
+    type: Boolean,
+    default: false
   }
 })
 const docs = mongoose.model('Docs', docSchema)
