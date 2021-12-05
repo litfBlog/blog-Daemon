@@ -144,7 +144,7 @@ addDoc.use((req, res) => {
     res.send({ code: 403, msg: '权限不足' })
     return
   }
-  let { title, info, content } = req.body
+  let { title, info, content, docConfig } = req.body
 
   // 内容判断
   if (
@@ -192,7 +192,8 @@ addDoc.use((req, res) => {
       content,
       author: req.session.uid,
       dataUuid: req.session.edit.id,
-      status: 1
+      status: 1,
+      noIndexView: docConfig.noIndexView
     }).then(() => {
       res.send({ code: 200, msg: '发布成功' })
     }).catch(err => {

@@ -66,7 +66,10 @@ addDoc.use('/init', async (req, res) => {
       type: 'editing',
       content: doc.content,
       title: doc.title,
-      info: doc.info
+      info: doc.info,
+      docConfig: {
+        noIndexView: doc.noIndexView
+      }
     })
   } else {
     res.send({ code: 500 })
@@ -167,7 +170,7 @@ addDoc.use(async (req, res) => {
     res.send({ code: 403, msg: '权限不足' })
     return
   }
-  let { _id, title, info, content } = req.body
+  let { _id, title, info, content, docConfig } = req.body
 
   // 内容判断
   if (
@@ -213,6 +216,7 @@ addDoc.use(async (req, res) => {
     content,
     title,
     info,
+    noIndexView: docConfig.noIndexView,
     $addToSet: {
       edits: {
         date: Date.now(),

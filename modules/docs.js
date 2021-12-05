@@ -55,6 +55,12 @@ const docSchema = new mongoose.Schema({
   likes: {
     type: [Object],
     default: []
+  },
+  // 权限设置
+  // 不在主页显示
+  noIndexView: {
+    type: Boolean,
+    default: false
   }
 })
 const docs = mongoose.model('Docs', docSchema)
