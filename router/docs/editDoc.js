@@ -1,3 +1,9 @@
+/*
+ * @Author: litfa 
+ * @Date: 2021-12-05 19:20:14 
+ * @Last Modified by: litfa
+ * @Last Modified time: 2021-12-05 19:40:03
+ */
 /**
  * 发布文章
  * @Author: litfa
@@ -208,7 +214,7 @@ addDoc.use(async (req, res) => {
     oldTitle = doc.title
     oldInfo = doc.info
   }
-
+  console.log(docConfig)
   docs.findOneAndUpdate({
     _id,
     author: req.session.uid,
@@ -219,6 +225,8 @@ addDoc.use(async (req, res) => {
     info,
     noIndexView: docConfig.noIndexView,
     noSearch: docConfig.noSearch,
+    usePassWord: docConfig.usePassWord,
+    passWord: docConfig.passWord,
     $addToSet: {
       edits: {
         date: Date.now(),

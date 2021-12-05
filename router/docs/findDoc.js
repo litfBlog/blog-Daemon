@@ -19,6 +19,28 @@ router.use('/:id', async (req, res) => {
     status: 1
   }).populate('author')
   if (doc) {
+    // 密码
+    let { passWord } = req.body
+    // console.log(doc)
+    if (
+      doc.usePassWord
+    ) {
+      // 作者不需要密码
+      if (
+        req.session.isLogin &&
+        doc.author._id == req.session.uid
+      ) {
+        // 
+      } else {
+        if (passWord) {
+          if (passWord != doc.passWord) {
+            return res.send({ code: 403, msg: '密码错误 ' })
+          }
+        } else {
+          return res.send({ code: 200, type: 'usePassWord' })
+        }
+      }
+    }
     // 转换 markdown
     // doc.content = marked(doc.content)
     // views 用于储存阅读数据

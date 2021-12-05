@@ -66,6 +66,15 @@ const docSchema = new mongoose.Schema({
   noSearch: {
     type: Boolean,
     default: false
+  },
+  // 密码访问
+  usePassWord: {
+    type: Boolean,
+    default: false
+  },
+  // 密码
+  passWord: {
+    type: String
   }
 })
 const docs = mongoose.model('Docs', docSchema)
