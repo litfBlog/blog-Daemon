@@ -9,7 +9,7 @@
   "main": "app.js",
   "scripts": {
     "serve": "nodemon app",
-    "servedev": "code .|nodemon app",
+    "servedev": "code .|wt -d ./|nodemon app",
     "start": "node app"
   },
   "author": "litfa",
