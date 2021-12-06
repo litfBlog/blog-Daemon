@@ -2,7 +2,7 @@
  * @Author: litfa 
  * @Date: 2021-12-05 19:20:14 
  * @Last Modified by: litfa
- * @Last Modified time: 2021-12-06 19:19:39
+ * @Last Modified time: 2021-12-06 19:54:22
  */
 /**
  * 发布文章
@@ -75,7 +75,10 @@ addDoc.use('/init', async (req, res) => {
       info: doc.info,
       docConfig: {
         noIndexView: doc.noIndexView,
-        noSearch: doc.noSearch
+        noSearch: doc.noSearch,
+        public: doc.public,
+        usePassWord: doc.usePassWord,
+        passWord: doc.passWord
       }
     })
   } else {
