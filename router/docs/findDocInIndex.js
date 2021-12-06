@@ -35,6 +35,10 @@ router.use(async (req, res) => {
   // 文章
   let doc = await docs.find({
     status: 1,
+    $or: [
+      { public: true },
+      { public: undefined }
+    ],
     // 不在首页显示为 false 或 undefined(未设置过，未指定)
     $or: [
       { noIndexView: false },

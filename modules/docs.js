@@ -75,6 +75,10 @@ const docSchema = new mongoose.Schema({
   // 密码
   passWord: {
     type: String
+  },
+  public: {
+    type: Boolean,
+    default: true
   }
 })
 const docs = mongoose.model('Docs', docSchema)

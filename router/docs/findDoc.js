@@ -22,6 +22,14 @@ router.use('/:id', async (req, res) => {
     // 密码
     let { passWord } = req.body
     // console.log(doc)
+    if (doc.public == false) {
+      // 仅作者可见
+      if (req.session.isLogin && req.session.uid) {
+        // 
+      } else {
+        return res.send({ code: 404 })
+      }
+    }
     if (
       doc.usePassWord
     ) {

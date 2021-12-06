@@ -203,7 +203,8 @@ addDoc.use((req, res) => {
       noIndexView: docConfig.noIndexView,
       noSearch: docConfig.noSearch,
       usePassWord: docConfig.usePassWord,
-      passWord: docConfig.passWord
+      passWord: docConfig.passWord,
+      public: docConfig.public
     }).then(() => {
       res.send({ code: 200, msg: '发布成功' })
     }).catch(err => {

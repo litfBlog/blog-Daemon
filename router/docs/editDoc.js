@@ -2,7 +2,7 @@
  * @Author: litfa 
  * @Date: 2021-12-05 19:20:14 
  * @Last Modified by: litfa
- * @Last Modified time: 2021-12-05 19:40:03
+ * @Last Modified time: 2021-12-06 19:19:39
  */
 /**
  * 发布文章
@@ -227,6 +227,7 @@ addDoc.use(async (req, res) => {
     noSearch: docConfig.noSearch,
     usePassWord: docConfig.usePassWord,
     passWord: docConfig.passWord,
+    public: docConfig.public,
     $addToSet: {
       edits: {
         date: Date.now(),
