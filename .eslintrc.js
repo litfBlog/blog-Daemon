@@ -35,6 +35,7 @@ module.exports = {
     'no-multiple-empty-lines': ['error', { 'max': 1 }],
     'comma-dangle': ['error', 'never'],
     'quotes': ['error', 'single'],
-    'spaced-comment': ['error', 'always']
+    'spaced-comment': ['error', 'always'],
+    'no-dupe-keys': ['off']
   }
 }
