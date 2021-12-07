@@ -144,7 +144,7 @@ addDoc.use((req, res) => {
     res.send({ code: 403, msg: '权限不足' })
     return
   }
-  let { title, info, content } = req.body
+  let { title, info, content, docConfig } = req.body
 
   // 内容判断
   if (
@@ -166,6 +166,13 @@ addDoc.use((req, res) => {
   ) {
     logger.info(`内容过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
     return res.send({ code: 403, msg: '简介过长/过短' })
+  }
+  if (
+    docConfig.usePassWord &&
+    docConfig.passWord < 2
+  ) {
+    logger.info(`密码过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
+    return res.send({ code: 403, msg: '密码过长/过短' })
   }
 
   // 自增ids 自增后就是文章的id
@@ -192,7 +199,12 @@ addDoc.use((req, res) => {
       content,
       author: req.session.uid,
       dataUuid: req.session.edit.id,
-      status: 1
+      status: 1,
+      noIndexView: docConfig.noIndexView,
+      noSearch: docConfig.noSearch,
+      usePassWord: docConfig.usePassWord,
+      passWord: docConfig.passWord,
+      public: docConfig.public
     }).then(() => {
       res.send({ code: 200, msg: '发布成功' })
     }).catch(err => {

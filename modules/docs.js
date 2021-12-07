@@ -55,6 +55,30 @@ const docSchema = new mongoose.Schema({
   likes: {
     type: [Object],
     default: []
+  },
+  // 权限设置
+  // 不在主页显示
+  noIndexView: {
+    type: Boolean,
+    default: false
+  },
+  // 不允许被搜索
+  noSearch: {
+    type: Boolean,
+    default: false
+  },
+  // 密码访问
+  usePassWord: {
+    type: Boolean,
+    default: false
+  },
+  // 密码
+  passWord: {
+    type: String
+  },
+  public: {
+    type: Boolean,
+    default: true
   }
 })
 const docs = mongoose.model('Docs', docSchema)

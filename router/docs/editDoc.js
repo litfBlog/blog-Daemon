@@ -1,3 +1,9 @@
+/*
+ * @Author: litfa 
+ * @Date: 2021-12-05 19:20:14 
+ * @Last Modified by: litfa
+ * @Last Modified time: 2021-12-06 19:54:22
+ */
 /**
  * 发布文章
  * @Author: litfa
@@ -66,7 +72,14 @@ addDoc.use('/init', async (req, res) => {
       type: 'editing',
       content: doc.content,
       title: doc.title,
-      info: doc.info
+      info: doc.info,
+      docConfig: {
+        noIndexView: doc.noIndexView,
+        noSearch: doc.noSearch,
+        public: doc.public,
+        usePassWord: doc.usePassWord,
+        passWord: doc.passWord
+      }
     })
   } else {
     res.send({ code: 500 })
@@ -167,7 +180,7 @@ addDoc.use(async (req, res) => {
     res.send({ code: 403, msg: '权限不足' })
     return
   }
-  let { _id, title, info, content } = req.body
+  let { _id, title, info, content, docConfig } = req.body
 
   // 内容判断
   if (
@@ -204,7 +217,7 @@ addDoc.use(async (req, res) => {
     oldTitle = doc.title
     oldInfo = doc.info
   }
-
+  console.log(docConfig)
   docs.findOneAndUpdate({
     _id,
     author: req.session.uid,
@@ -213,6 +226,11 @@ addDoc.use(async (req, res) => {
     content,
     title,
     info,
+    noIndexView: docConfig.noIndexView,
+    noSearch: docConfig.noSearch,
+    usePassWord: docConfig.usePassWord,
+    passWord: docConfig.passWord,
+    public: docConfig.public,
     $addToSet: {
       edits: {
         date: Date.now(),

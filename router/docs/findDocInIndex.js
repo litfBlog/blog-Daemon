@@ -34,7 +34,16 @@ router.use(async (req, res) => {
   }
   // 文章
   let doc = await docs.find({
-    status: 1
+    status: 1,
+    $or: [
+      { public: true },
+      { public: undefined }
+    ],
+    // 不在首页显示为 false 或 undefined(未设置过，未指定)
+    $or: [
+      { noIndexView: false },
+      { noIndexView: undefined }
+    ]
   }, {
     title: 1,
     info: 1,
@@ -43,8 +52,10 @@ router.use(async (req, res) => {
     status: 1,
     views: 1,
     likes: 1,
+
     _id: 1
-  }).sort({
+  }
+  ).sort({
     // 排序
     $natural: 1
   }).skip(skip).limit(num).populate('author')

@@ -46,3 +46,67 @@ member: 成员
 - 文章封面
 - 用户不存在的处理 √
 - 搜索 √
+
+
+# api相关操作
+### 文章路由
+
+#### 文章图片 静态资源
+- 请求方式：get
+- 请求路径 /api/data/img/{资源id}/{文件名}
+
+
+#### 用户头像
+- 请求方式：get
+- 请求路径 /api/data/userAvatar/{文件名}
+
+
+
+
+// 用户相关
+// 登录
+app.use('/api/user/login', require('./router/users/login'))
+// 登录状态
+app.use('/api/user/loginStatus', require('./router/users/loginStatus'))
+// 注册
+app.use('/api/user/register', require('./router/users/register'))
+// 设置资料
+app.use('/api/user/setInfo', require('./router/users/setInfo'))
+// 验证码
+app.use('/api/authCode', require('./router/users/authCode'))
+
+// 文章相关操作
+// 单个页面  (返回 md转换html后的字符串)
+app.use('/api/docs/findOne', require('./router/docs/findDoc'))
+// 点赞
+app.use('/api/docs/likeDoc', require('./router/docs/likeDoc'))
+// 首页文章列表
+app.use('/api/docs/find', require('./router/docs/findDocInIndex'))
+// 搜索
+app.use('/api/docs/search', require('./router/docs/search'))
+// 查看自己的文章
+app.use('/api/docs/findMyDoc', require('./router/docs/findMyDoc'))
+// 删除自己的文章
+app.use('/api/docs/rmMyDoc', require('./router/docs/rmDoc'))
+// 发布文章
+app.use('/api/docs/add', require('./router/docs/addDoc'))
+// 修改文章
+app.use('/api/docs/edit', require('./router/docs/editDoc'))
+
+// 后台管理
+app.use(config.admin_path, express.static('./public'))
+// 登录
+app.use('/api/admin/login', require('./router/admin/login'))
+// 验证登录
+app.use('/api/admin', (req, res, next) => {
+  if (req.session.adminIsLogin) {
+    next()
+  } else {
+    res.redirect('/')
+    res.send()
+  }
+})
+// 用户管理
+app.use('/api/admin/user', require('./router/admin/user'))
+// 文章管理
+app.use('/api/admin/page', require('./router/admin/pages'))
