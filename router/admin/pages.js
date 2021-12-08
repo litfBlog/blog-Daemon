@@ -1,23 +1,20 @@
+/*
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:37:11 
+ * @Last Modified by:   litfa 
+ * @Last Modified time: 2021-12-08 16:37:11 
+ */
 const router = require('express')()
-// const users = require('./../../modules/users')
 const pages = require('./../../modules/docs')
-// const md5 = require('md5')
 
 router.use('/getPages', async (req, res) => {
   let pagesData = await pages.find().populate('author')
   pagesData = pagesData.reverse()
   res.send(pagesData)
 })
-// router.use('/getOnePage', async (req, res) => {
-//   let { _id } = req.body
-//   let usersData = await users.findOne({ _id })
-//   res.send(usersData)
-// })
+
 router.use('/edit', async (req, res) => {
   let { type, value, _id } = req.body
-  // if (type == 'passWord') {
-  //   value = md5(md5(value) + 'xingWiki')
-  // }
   pages.findByIdAndUpdate({
     _id
   }, {

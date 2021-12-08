@@ -1,3 +1,9 @@
+/*
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:37:29 
+ * @Last Modified by:   litfa 
+ * @Last Modified time: 2021-12-08 16:37:29 
+ */
 const router = require('express')()
 const users = require('./../../modules/users')
 const md5 = require('md5')
@@ -27,9 +33,5 @@ router.use('/edit', async (req, res) => {
   })
 })
 
-
 module.exports = router
-
-
-
 

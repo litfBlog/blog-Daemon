@@ -1,7 +1,8 @@
-/**
- * xingWiki
- * @Author: litfa
- * @Date: 2021-8-23
+/*
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:35:40 
+ * @Last Modified by: litfa
+ * @Last Modified time: 2021-12-08 16:38:07
  */
 
 // log
@@ -17,15 +18,11 @@ global.config = {}
 if (!fs.existsSync('./config.js')) fs.copyFileSync('./modules/init_config.js', './config.js')
 
 config.mail = {}
-// require('./configDev')
 require('./config')
-
-const uuid = require('uuid')
 
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
-// const express = require('express')
 const app = express()
 
 logger.info('初始化express')
@@ -48,6 +45,8 @@ app.use((req, res, next) => {
   next()
 })
 
+const uuid = require('uuid')
+
 app.use(
   session({
     name: 'xingWiki',
@@ -61,16 +60,6 @@ app.use(
 
 // 数据库
 require('./modules/content')
-// 跨域配置
-app.use((req, res, next) => {
-  //   if (config.allowCorf) {
-  // res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET, POST')
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With')
-  res.header('Access-Control-Allow-Headers', 'Content-Type')
-  res.header('Access-Control-Allow-Credentials', true)
-  next()
-})
 
 // api相关操作
 // 所有用户相关，文章相关均在此路由

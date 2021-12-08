@@ -1,8 +1,10 @@
 /*
- * 发布文章
- * @Author: litfa
- * @Date: 2021-8-28
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:40:04 
+ * @Last Modified by:   litfa 
+ * @Last Modified time: 2021-12-08 16:40:04 
  */
+
 const path = require('path')
 const fs = require('fs')
 
@@ -14,19 +16,7 @@ const ids = require('./../../modules/ids')
 const multer = require('multer')
 // uuid
 const uuid = require('uuid')
-// console.log(uuid.v1);
-// console.log(uuid.v2);
-// console.log(uuid.v3);
-// console.log(uuid.v4());
-// console.log(uuid.v5);
 
-// 进入编辑页 初始化数据
-// 分配文章id
-// 保存草稿功能
-
-// function sleep (time) {
-//   return new Promise((resolve) => setTimeout(resolve, time));
-// }
 addDoc.use('/init', async (req, res) => {
   // await sleep(5000)
   // 账号状态
@@ -112,11 +102,9 @@ addDoc.post('/delImg', (req, res) => {
   let { fileName } = req.body
   fileName = fileName.split('/')
   fileName = fileName[fileName.length - 1]
-  // console.log(fileName)
   logger.info(`删除图片 ${req.userip}, ${fileName}, ${JSON.stringify(req.session)}`)
   fs.rename(`./uploads/${req.session.edit.id}/${fileName}`, `./delLoads/${fileName}.bak`, (err) => {
     if (err) {
-      // console.log(err);
       logger.error(err)
       res.send({ code: 500 })
       return
@@ -127,8 +115,7 @@ addDoc.post('/delImg', (req, res) => {
 
 // 已在 app.js 声明路由
 addDoc.use((req, res) => {
-  // if (req.session.isLogin && req.session.status == 1 && req.session.permission.indexof(config.allow_addDoc) != -1) {
-  // console.log(req.session)
+
   if (!req.session.isLogin) {
     res.send({ code: 403, msg: '未登录' })
     return
@@ -137,9 +124,7 @@ addDoc.use((req, res) => {
     res.send({ code: 403, msg: '账号状态异常' })
     return
   }
-  // console.log(config.allow_addDoc);
-  // console.log(config.allow_addDoc.indexOf(req.session.permission));
-  // console.log(req.session);
+
   if (config.allow_addDoc.indexOf(req.session.permission) == -1) {
     res.send({ code: 403, msg: '权限不足' })
     return
@@ -208,7 +193,6 @@ addDoc.use((req, res) => {
     }).then(() => {
       res.send({ code: 200, msg: '发布成功' })
     }).catch(err => {
-      // console.log(err)
       logger.error(err)
       res.send({ code: 500, msg: '发布失败' })
     })

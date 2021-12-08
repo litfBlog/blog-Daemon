@@ -1,20 +1,19 @@
-/**
+/*
  * 注册功能
- * @Author: litfa
- * @Date: 2021-8-28
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:44:14 
+ * @Last Modified by: litfa
+ * @Last Modified time: 2021-12-08 16:44:36
  */
 
 const register = require('express')()
 const users = require('./../../modules/users')
 const ids = require('./../../modules/ids')
 
-// const sendMail = require("./../../modules/sendMail")
-
 const md5 = require('md5')
 
 register.use('/find', async (req, res) => {
   let { userName, email } = req.body
-  // console.log(req.body);
   let doc
   if (userName) {
     doc = await users.findOne({ userName })
@@ -37,8 +36,7 @@ register.use('/register', async (req, res) => {
 
   if (!/^[a-z0-9_-]{3,16}$/.test(userName)) return res.send({ code: 403, msg: '用户名有误' })
   if (!/^[a-z0-9_-]{6,18}$/.test(passWord)) return res.send({ code: 403, msg: '密码格式有误' })
-  // if (authCode != req.session.authCode) return res.send({ code: 403, msg: '验证码错误' })
-  // req.session.authCode = null
+
   if (emailCode != req.session.mailCode) return res.send({ code: 403, msg: '邮箱验证码错误' })
   let doc = await users.findOne({ userName })
   if (doc) return res.send({ code: 403, msg: '该用户名已被占用' })
@@ -52,8 +50,6 @@ register.use('/register', async (req, res) => {
   } else {
     return res.send({ code: 403, msg: '验证码已过期' })
   }
-
-  // passWord = md5(md5(passWord) + 'xingWiki')
 
   ids.findOneAndUpdate(
     {

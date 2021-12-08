@@ -2,38 +2,20 @@
  * @Author: litfa 
  * @Date: 2021-12-05 19:20:14 
  * @Last Modified by: litfa
- * @Last Modified time: 2021-12-06 19:54:22
+ * @Last Modified time: 2021-12-08 16:40:24
  */
 /**
  * 发布文章
- * @Author: litfa
- * @Date: 2021-8-28
  */
 const path = require('path')
 const fs = require('fs')
 
 const addDoc = require('express')()
 const docs = require('./../../modules/docs')
-// const ids = require('./../../modules/ids')
 
 // 引入multer中间件，用于处理上传的文件数据
 const multer = require('multer')
 
-// uuid
-// const uuid = require('uuid')
-// console.log(uuid.v1);
-// console.log(uuid.v2);
-// console.log(uuid.v3);
-// console.log(uuid.v4());
-// console.log(uuid.v5);
-
-// 进入编辑页 初始化数据
-// 分配文章id
-// 保存草稿功能
-
-// function sleep (time) {
-//   return new Promise((resolve) => setTimeout(resolve, time));
-// }
 addDoc.use('/init', async (req, res) => {
   // await sleep(5000)
   logger.info(`初始化更新文章 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
@@ -46,9 +28,6 @@ addDoc.use('/init', async (req, res) => {
     res.send({ code: 403, msg: '账号状态异常' })
     return
   }
-  // console.log(config.allow_addDoc);
-  // console.log(config.allow_addDoc.indexOf(req.session.permission));
-  // console.log(req.session);
   if (config.allow_addDoc.indexOf(req.session.permission) == -1) {
     res.send({ code: 403, msg: '权限不足' })
     return

@@ -1,7 +1,9 @@
-/**
+/*
  * 登录功能
- * @Author: litfa
- * @Date: 2021-8-28
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:43:36 
+ * @Last Modified by:   litfa 
+ * @Last Modified time: 2021-12-08 16:43:36 
  */
 
 const login = require('express')()
@@ -9,9 +11,7 @@ const users = require('./../../modules/users')
 const md5 = require('md5')
 
 login.use('/unlogin', (req, res) => {
-  // console.log(req.session);
   req.session.isLogin = false
-  // console.log(req.session);
   logger.info(`用户退出登录 ${JSON.stringify(req.session)}`)
   res.send({ code: 200, msg: '退出成功' })
 })
@@ -19,10 +19,8 @@ login.use('/unlogin', (req, res) => {
 // 已在 app.js 声明路由
 login.use(async (req, res) => {
   logger.info(`用户登录 ip:${req.userip} ${JSON.stringify(req.body)}`)
-  // console.log(req.body);
   let { userName, passWord, authCode } = req.body
   authCode = authCode.toLowerCase()
-  // console.log(req.body);
 
   if (
     /^[a-z0-9_-]{3,16}$/.test(userName) &&

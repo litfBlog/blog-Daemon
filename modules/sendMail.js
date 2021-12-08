@@ -1,3 +1,9 @@
+/*
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:36:44 
+ * @Last Modified by:   litfa 
+ * @Last Modified time: 2021-12-08 16:36:44 
+ */
 const ndoemailer = require('nodemailer')
 
 const sendMail = (to, type, title, content) => {

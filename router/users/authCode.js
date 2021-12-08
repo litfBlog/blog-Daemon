@@ -1,13 +1,13 @@
-/**
+/*
  * 验证码
- * @Author: litfa
- * @Date: 2021-9-1
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:42:25 
+ * @Last Modified by: litfa
+ * @Last Modified time: 2021-12-08 16:42:52
  */
 
 const authCode = require('express')()
-// const users = require('./../../modules/users')
 const svgCaptcha = require('svg-captcha')
-// app.use(cookieParase())
 // 已在 app.js 声明路由
 authCode.use(async (req, res) => {
   logger.info(`获取图片验证码 ${req.userip}`)
@@ -25,11 +25,7 @@ authCode.use(async (req, res) => {
     height: 40
   })
   // 保存到session,忽略大小写 
-
   req.session.authCode = captcha.text.toLowerCase()
-  // console.log(req.session); //0xtg 生成的验证码
-  // 保存到cookie 方便前端调用验证
-  // res.cookie('captcha', req.session);
   res.setHeader('Content-Type', 'image/svg+xml')
   res.write(String(captcha.data))
   res.end()

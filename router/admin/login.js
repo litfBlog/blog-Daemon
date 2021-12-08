@@ -1,17 +1,15 @@
-/**
- * 登录功能
- * @Author: litfa
- * @Date: 2021-8-28
+/*
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:37:00 
+ * @Last Modified by: litfa
+ * @Last Modified time: 2021-12-08 16:37:42
  */
 
 const login = require('express')()
-// const users = require('./../../modules/users')
 const md5 = require('md5')
 
 login.use('/unlogin', (req, res) => {
-  // console.log(req.session);
   req.session.adminIsLogin = false
-  // console.log(req.session);
   logger.info(`用户退出登录 ${JSON.stringify(req.session)}`)
   res.send({ code: 200, msg: '退出成功' })
 })

@@ -1,13 +1,15 @@
-/**
+/*
  * 邮箱验证码
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:43:16 
+ * @Last Modified by:   litfa 
+ * @Last Modified time: 2021-12-08 16:43:16 
  */
 
 const register = require('express')()
 const users = require('./../../modules/users')
 
 const sendMail = require('./../../modules/sendMail')
-
-// const md5 = require('md5')
 
 // 已声明路由
 register.use(async (req, res) => {
@@ -21,8 +23,6 @@ register.use(async (req, res) => {
   if (doc) return res.send({ code: 403, msg: '该用户名已被占用' })
   let doc1 = await users.findOne({ email })
   if (doc1) return res.send({ code: 403, msg: '该邮箱已注册' })
-  // console.log((req.session.mailDate + (1000 * 60)), Date.now());
-  // console.log((req.session.mailDate + (1000 * 60)) < Date.now());
   if ((req.session.mailDate + (1000 * 60)) > Date.now()) {
     return res.send({ code: 200, msg: '获取过于频繁' })
   }

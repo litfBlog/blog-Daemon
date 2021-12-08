@@ -1,3 +1,9 @@
+/*
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:36:48 
+ * @Last Modified by:   litfa 
+ * @Last Modified time: 2021-12-08 16:36:48 
+ */
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({

@@ -1,3 +1,9 @@
+/*
+ * @Author: litfa 
+ * @Date: 2021-12-08 16:42:14 
+ * @Last Modified by: litfa
+ * @Last Modified time: 2021-12-08 16:42:54
+ */
 const router = require('express')()
 
 const docs = require('../../modules/docs')
@@ -12,7 +18,6 @@ router.use('/get', async (req, res) => {
   if (req.session.isLogin) {
     for (let i in likesData) {
       if (likesData[i]._id || likesData[i]._id == req.session.uid) {
-        // return res.send({ code: 403, msg: '您已赞过该文章' })
         liked = true
         break
       }
@@ -21,7 +26,6 @@ router.use('/get', async (req, res) => {
     // 未登录 判断ip
     for (let i in likesData) {
       if (likesData[i].ip === req.userip) {
-        // return res.send({ code: 403, msg: '您已赞过该文章' })
         liked = true
         break
       }
@@ -60,7 +64,6 @@ router.use('/like', async (req, res) => {
       }
     }
     likes = {
-      // _id: req.session.uid,
       ip: req.userip,
       date: Date.now()
     }
@@ -71,7 +74,6 @@ router.use('/like', async (req, res) => {
       likes
     }
   }).then(() => {
-    // console.log(e)
     res.send({ id: _id, code: 200 })
   })
 })
@@ -92,10 +94,8 @@ router.use('/unlike', (req, res) => {
       likes
     }
   }).then(() => {
-    // console.log(e)
     res.send({ id: _id, code: 200 })
   }).catch(() => {
-    // console.log(e)
     res.send({ code: 500, msg: '您未赞过该文章' })
   })
 })
