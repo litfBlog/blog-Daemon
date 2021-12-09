@@ -30,7 +30,8 @@
     "multer": "^1.4.3",
     "node-mail": "^1.0.7",
     "svg-captcha": "^1.4.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "xss": "^1.0.10"
   },
   "devDependencies": {
     "eslint": "^8.4.1"
