@@ -9,6 +9,7 @@ test
 configDev.js
 logs
 config.js
+*test*
 
 # pkg
 app-linux
