@@ -2,7 +2,7 @@
  * @Author: litfa 
  * @Date: 2021-12-08 16:35:40 
  * @Last Modified by: litfa
- * @Last Modified time: 2021-12-08 16:38:07
+ * @Last Modified time: 2021-12-10 20:29:39
  */
 
 // log
@@ -10,13 +10,23 @@ global.logger = {}
 require('./modules/log')
 
 const fs = require('fs')
+const path = require('path')
 
 logger.info('初始化配置文件')
 
 global.config = {}
 
-if (!fs.existsSync('./config.js')) fs.copyFileSync('./modules/init_config.js', './config.js')
-
+if (!fs.existsSync('./config.js')) {
+  logger.info('未找到配置文件， 将生成默认配置')
+  // 生成配置文件
+  try {
+    fs.writeFileSync('./config.js', require('./modules/init_config'))
+  } catch (e) {
+    logger.error('配置文件生成失败', e)
+  }
+  logger.info('配置文件生成成功')
+  logger.warning('默认配置会导致部分功能不可用，请修改配置文件')
+}
 config.mail = {}
 require('./config')
 
@@ -116,6 +126,13 @@ app.use('/api/admin', (req, res, next) => {
 app.use('/api/admin/user', require('./router/admin/user'))
 // 文章管理
 app.use('/api/admin/page', require('./router/admin/pages'))
+
+// 静态资源
+const connectHistoryApiFallback = require('connect-history-api-fallback')
+
+app.use('/', connectHistoryApiFallback())
+
+app.use('/', express.static(path.join(__dirname, 'dist')))
 
 // 监听端口
 app.listen(config.port, () => {

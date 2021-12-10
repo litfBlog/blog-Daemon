@@ -16,6 +16,13 @@ app-linux
 app-macos
 app-win.exe
 
+blog
+blog.exe
+blog-linux
+blog-macos
+blog-win.exe
+
+
 # local env files
 .env.local
 .env.*.local

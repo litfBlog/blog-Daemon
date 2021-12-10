@@ -1,10 +1,10 @@
 {
-  "name": "xingwiki",
+  "name": "blog",
   "version": "1.0.0",
-  "description": "wiki blog",
+  "description": "blog",
   "Keywords": [
-    "wiki",
-    "blog"
+    "blog",
+    "wiki"
   ],
   "main": "app.js",
   "scripts": {
@@ -21,6 +21,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
+    "connect-history-api-fallback": "^1.6.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
@@ -35,5 +36,17 @@
   },
   "devDependencies": {
     "eslint": "^8.4.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/litfa/blog-Daemon"
+  },
+  "bin": "app.js",
+  "pkg": {
+    "assets": [
+      "public/**/*",
+      "dist/**/*",
+      "modules/**/*"
+    ]
   }
 }
