@@ -2,7 +2,7 @@
  * @Author: litfa 
  * @Date: 2021-12-08 16:40:04 
  * @Last Modified by: litfa
- * @Last Modified time: 2021-12-09 19:59:26
+ * @Last Modified time: 2021-12-17 20:08:48
  */
 
 const path = require('path')
@@ -56,7 +56,12 @@ addDoc.use('/init', async (req, res) => {
       date: Date.now(),
       id
     }
-    res.send({ code: 200, type: 'init' })
+    res.send({
+      code: 200,
+      type: 'init',
+      // 文章编辑规则
+      editConfig: config.editConfig
+    })
   })
 })
 
@@ -140,28 +145,31 @@ addDoc.use((req, res) => {
   // 内容判断
   // #region 
   if (
-    info.length > 50 ||
-    info.length < 10
+    title.length > config.editConfig.docTitle.rules.maxLength ||
+    title.length < config.editConfig.docTitle.rules.minLength
   ) {
     logger.info(`标题过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
     return res.send({ code: 403, msg: '标题过长/过短' })
   }
+  // 简介将会删除，自动生成
+  // if (
+  //   info.length > 50 ||
+  //   info.length < 10
+  // ) {
+  //   logger.info(`简介过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
+  //   return res.send({ code: 403, msg: '简介过长/过短' })
+  // }
   if (
-    info.length > 50 ||
-    info.length < 10
-  ) {
-    logger.info(`简介过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
-    return res.send({ code: 403, msg: '简介过长/过短' })
-  }
-  if (content.length > 100000 ||
-    content.length < 20
+    content.length > config.editConfig.docContent.rules.maxLength ||
+    content.length < config.editConfig.docContent.rules.minLength
   ) {
     logger.info(`内容过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
     return res.send({ code: 403, msg: '简介过长/过短' })
   }
+
   if (
     docConfig.usePassWord &&
-    docConfig.passWord < 2
+    docConfig.passWord.length < config.editConfig.viewPassword.minLength
   ) {
     logger.info(`密码过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
     return res.send({ code: 403, msg: '密码过长/过短' })

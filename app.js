@@ -2,7 +2,7 @@
  * @Author: litfa 
  * @Date: 2021-12-08 16:35:40 
  * @Last Modified by: litfa
- * @Last Modified time: 2021-12-10 20:29:39
+ * @Last Modified time: 2021-12-17 19:30:21
  */
 
 // log
@@ -27,7 +27,9 @@ if (!fs.existsSync('./config.js')) {
   logger.info('配置文件生成成功')
   logger.warning('默认配置会导致部分功能不可用，请修改配置文件')
 }
+// 初始化子选项
 config.mail = {}
+config.editConfig = {}
 require('./config')
 
 const express = require('express')
