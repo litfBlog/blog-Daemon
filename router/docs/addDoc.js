@@ -2,7 +2,7 @@
  * @Author: litfa 
  * @Date: 2021-12-08 16:40:04 
  * @Last Modified by: litfa
- * @Last Modified time: 2021-12-17 20:08:48
+ * @Last Modified time: 2021-12-27 16:41:17
  */
 
 const path = require('path')
@@ -19,7 +19,6 @@ const multer = require('multer')
 const uuid = require('uuid')
 
 addDoc.use('/init', async (req, res) => {
-  // await sleep(5000)
   // 账号状态
   if (!req.session.isLogin) {
     res.send({ code: 403, msg: '未登录' })
@@ -29,23 +28,20 @@ addDoc.use('/init', async (req, res) => {
     res.send({ code: 403, msg: '账号状态异常' })
     return
   }
-  // console.log(config.allow_addDoc);
-  // console.log(config.allow_addDoc.indexOf(req.session.permission));
-  // console.log(req.session);
   if (config.allow_addDoc.indexOf(req.session.permission) == -1) {
     res.send({ code: 403, msg: '权限不足' })
     return
   }
 
-  // 若是编辑中状态
-  // if (req.session.edit && req.session.edit.editing) {
-  //   // 返回编辑状态
-  //   res.send({ code: 200, type: 'editing', content: '草稿', title: '', info: '' })
-  // } else {
-  //   // 非编辑中状态
-  //   // 初始化编辑状态
-  // }
   let id = uuid.v4()
+  // 深度复制，不影响原值
+  let editConfig = JSON.parse(JSON.stringify(config.editConfig))
+  for (let i in config.editConfig) {
+    // editConfig[i] = {}
+    // editConfig[i].rules = {}
+    // editConfig[i].rules.rule = {}
+    editConfig[i].rules.rule = String(config.editConfig[i].rules.rule)
+  }
   fs.mkdir(`./uploads/${id}/`, (err) => {
     if (err) {
       res.send({ code: 500 })
@@ -60,7 +56,7 @@ addDoc.use('/init', async (req, res) => {
       code: 200,
       type: 'init',
       // 文章编辑规则
-      editConfig: config.editConfig
+      editConfig
     })
   })
 })
@@ -120,61 +116,13 @@ addDoc.post('/delImg', (req, res) => {
 })
 
 // 已在 app.js 声明路由
+// 验证中间件，通过会调用next
+addDoc.use(require('./validationDoc'))
 addDoc.use((req, res) => {
-
-  // 状态判断
-  // #region 
-  if (!req.session.isLogin) {
-    res.send({ code: 403, msg: '未登录' })
-    return
-  }
-  if (req.session.status != 1) {
-    res.send({ code: 403, msg: '账号状态异常' })
-    return
-  }
-
-  if (config.allow_addDoc.indexOf(req.session.permission) == -1) {
-    res.send({ code: 403, msg: '权限不足' })
-    return
-  }
-  // #endregion
-
   // 接收参数
   let { title, info, content, docConfig } = req.body
-
   // 内容判断
   // #region 
-  if (
-    title.length > config.editConfig.docTitle.rules.maxLength ||
-    title.length < config.editConfig.docTitle.rules.minLength
-  ) {
-    logger.info(`标题过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
-    return res.send({ code: 403, msg: '标题过长/过短' })
-  }
-  // 简介将会删除，自动生成
-  // if (
-  //   info.length > 50 ||
-  //   info.length < 10
-  // ) {
-  //   logger.info(`简介过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
-  //   return res.send({ code: 403, msg: '简介过长/过短' })
-  // }
-  if (
-    content.length > config.editConfig.docContent.rules.maxLength ||
-    content.length < config.editConfig.docContent.rules.minLength
-  ) {
-    logger.info(`内容过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
-    return res.send({ code: 403, msg: '简介过长/过短' })
-  }
-
-  if (
-    docConfig.usePassWord &&
-    docConfig.passWord.length < config.editConfig.viewPassword.minLength
-  ) {
-    logger.info(`密码过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
-    return res.send({ code: 403, msg: '密码过长/过短' })
-  }
-  // #endregion
 
   // xss
   // #region 

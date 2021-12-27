@@ -2,7 +2,7 @@
  * @Author: litfa 
  * @Date: 2021-12-05 19:20:14 
  * @Last Modified by: litfa
- * @Last Modified time: 2021-12-09 20:00:33
+ * @Last Modified time: 2021-12-27 16:55:12
  */
 /**
  * 发布文章
@@ -47,6 +47,15 @@ addDoc.use('/init', async (req, res) => {
       date: Date.now(),
       id: doc.dataUuid
     }
+
+    // 深度复制，不影响原值
+    let editConfig = JSON.parse(JSON.stringify(config.editConfig))
+    for (let i in config.editConfig) {
+      // editConfig[i] = {}
+      // editConfig[i].rules = {}
+      // editConfig[i].rules.rule = {}
+      editConfig[i].rules.rule = String(config.editConfig[i].rules.rule)
+    }
     res.send({
       code: 200,
       type: 'editing',
@@ -59,33 +68,13 @@ addDoc.use('/init', async (req, res) => {
         public: doc.public,
         usePassWord: doc.usePassWord,
         passWord: doc.passWord
-      }
+      },
+      editConfig
     })
   } else {
     res.send({ code: 500 })
   }
 
-  // 若是编辑中状态
-  //  if (req.session.edit && req.session.edit.editing) {
-  //    // 返回编辑状态
-  //    res.send({ code: 200, type: 'editing', content: '草稿', title: '', info: '' })
-  //  } else {
-  //    // 非编辑中状态
-  //    // 初始化编辑状态
-  //    let id = uuid.v4()
-  //    fs.mkdir(`./uploads/${id}/`, (err) => {
-  //      if (err) {
-  //        res.send({ code: 500 })
-  //        return
-  //      }
-  //      req.session.edit = {
-  //        editing: true,
-  //        date: Date.now(),
-  //        id: id
-  //      }
-  //      res.send({ code: 200, type: 'init' })
-  //    })
-  //  }
 })
 
 addDoc.use(multer({
@@ -145,44 +134,14 @@ addDoc.post('/delImg', (req, res) => {
 })
 
 // 已在 app.js 声明路由
+
+// 验证中间件，通过会调用next
+addDoc.use(require('./validationDoc'))
+
 addDoc.use(async (req, res) => {
   logger.info(`更新文章 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
-  // if (req.session.isLogin && req.session.status == 1 && req.session.permission.indexof(config.allow_addDoc) != -1) {
-  // console.log(req.session)
-  if (!req.session.isLogin) {
-    res.send({ code: 403, msg: '未登录' })
-    return
-  }
-  // console.log(config.allow_addDoc);
-  // console.log(config.allow_addDoc.indexOf(req.session.permission));
-  // console.log(req.session);
-  if (config.allow_addDoc.indexOf(req.session.permission) == -1) {
-    res.send({ code: 403, msg: '权限不足' })
-    return
-  }
-  let { _id, title, info, content, docConfig } = req.body
 
-  // 内容判断
-  if (
-    info.length > 50 ||
-    info.length < 10
-  ) {
-    logger.info(`标题过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
-    return res.send({ code: 403, msg: '标题过长/过短' })
-  }
-  if (
-    info.length > 50 ||
-    info.length < 10
-  ) {
-    logger.info(`简介过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
-    return res.send({ code: 403, msg: '简介过长/过短' })
-  }
-  if (content.length > 10000 ||
-    content.length < 20
-  ) {
-    logger.info(`内容过长/过短 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
-    return res.send({ code: 403, msg: '简介过长/过短' })
-  }
+  let { _id, title, info, content, docConfig } = req.body
 
   // xss
   // #region 
@@ -391,7 +350,7 @@ addDoc.use(async (req, res) => {
     oldTitle = doc.title
     oldInfo = doc.info
   }
-  console.log(docConfig)
+  // console.log(docConfig)
   docs.findOneAndUpdate({
     _id,
     author: req.session.uid,
@@ -423,39 +382,6 @@ addDoc.use(async (req, res) => {
     logger.error(err)
     res.send({ code: 500, msg: '修改失败' })
   })
-  // 自增ids 自增后就是文章的id
-  // ids.findOneAndUpdate(
-  //   {
-  //     name: 'docs',
-  //   },
-  //   {
-  //     // $inc 需要自增的字段
-  //     $inc: {
-  //       id: +1
-  //     }
-  //   },
-  //   {
-  //     upsert: true, // 如果该文档不存在则插入
-  //     returnOriginal: false, // 返回更新是否成功/更新后结果  false返回更新后结果
-  //   }
-  // ).then(id => {
-  //   docs.create({
-  //     _id: id.id,
-  //     title,
-  //     info,
-  //     date: Date.now(),
-  //     content,
-  //     author: req.session.uid,
-  //     dataUuid: req.session.edit.id,
-  //     status: 1
-  //   }).then(doc => {
-  //     res.send({ code: 200, msg: '发布成功' })
-  //   }).catch(err => {
-  //     // console.log(err)
-  //     logger.error(err)
-  //     res.send({ code: 500, msg: '发布失败' })
-  //   })
-  // })
 })
 
 module.exports = addDoc
