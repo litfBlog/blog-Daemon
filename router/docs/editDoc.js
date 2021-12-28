@@ -2,7 +2,7 @@
  * @Author: litfa 
  * @Date: 2021-12-05 19:20:14 
  * @Last Modified by: litfa
- * @Last Modified time: 2021-12-27 16:55:12
+ * @Last Modified time: 2021-12-28 11:35:26
  */
 /**
  * 发布文章
@@ -40,7 +40,6 @@ addDoc.use('/init', async (req, res) => {
     author: req.session.uid,
     status: 1
   })
-  console.log(doc)
   if (doc) {
     req.session.edit = {
       editing: true,
@@ -141,8 +140,9 @@ addDoc.use(require('./validationDoc'))
 addDoc.use(async (req, res) => {
   logger.info(`更新文章 ${req.userip} ${JSON.stringify(req.session)} ${JSON.stringify(req.body)}`)
 
-  let { _id, title, info, content, docConfig } = req.body
-
+  let { _id, title, content, docConfig } = req.body
+  // 简介由文章生成
+  let info = content.replace(/<(\S*?)[^>]*>.*?|<.*? \/>/g, '')
   // xss
   // #region 
   let defaultWhitelist = {

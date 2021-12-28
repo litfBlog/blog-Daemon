@@ -2,7 +2,7 @@
  * @Author: litfa 
  * @Date: 2021-12-08 16:40:04 
  * @Last Modified by: litfa
- * @Last Modified time: 2021-12-27 16:41:17
+ * @Last Modified time: 2021-12-28 11:51:08
  */
 
 const path = require('path')
@@ -37,9 +37,6 @@ addDoc.use('/init', async (req, res) => {
   // 深度复制，不影响原值
   let editConfig = JSON.parse(JSON.stringify(config.editConfig))
   for (let i in config.editConfig) {
-    // editConfig[i] = {}
-    // editConfig[i].rules = {}
-    // editConfig[i].rules.rule = {}
     editConfig[i].rules.rule = String(config.editConfig[i].rules.rule)
   }
   fs.mkdir(`./uploads/${id}/`, (err) => {
@@ -120,7 +117,9 @@ addDoc.post('/delImg', (req, res) => {
 addDoc.use(require('./validationDoc'))
 addDoc.use((req, res) => {
   // 接收参数
-  let { title, info, content, docConfig } = req.body
+  let { title, content, docConfig } = req.body
+  // 简介由文章生成
+  let info = content.replace(/<(\S*?)[^>]*>.*?|<.*? \/>/g, '').slice(0, 15)
   // 内容判断
   // #region 
 
